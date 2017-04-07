@@ -2,7 +2,7 @@
 
 <#
 .SYNOPSIS
-   Delete user profiles on local o remote computer, the session in which you are running the script must be started with elevated user rights (Run as Administrator).
+   Delete user profiles on local or remote computer, the session in which you are running the script must be started with elevated user rights (Run as Administrator).
 .DESCRIPTION
    This script delete the user profiles on local o remote computer that match the search criteria.
 .PARAMETER UserName
