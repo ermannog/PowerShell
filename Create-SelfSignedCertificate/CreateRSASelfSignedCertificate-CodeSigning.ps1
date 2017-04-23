@@ -1,3 +1,5 @@
+# Reference: https://www.devadmin.it/2017/04/23/creazione-certificato-autofirmato-in-powershell/
+
 # Variabili di utilità
 $timeStamp = Get-Date -format "yyyy-MM-dd-HH-mm-ss" 
 
