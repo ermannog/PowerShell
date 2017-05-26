@@ -15,6 +15,8 @@
    Host name or list of host names on witch delete user profile, this parameter is optional (the default value is local computer).
 .PARAMETER IncludeSpecialUsers
    Include also special system service in the search, this parameter is optional (the default value is False).
+.PARAMETER Force
+   Force execution without require confirm (the default value is False).
 .EXAMPLE
    ./Remove-UserProfile.ps1 LoganJ
    Delete the profile of the user with user name equal LoganJ.
@@ -43,7 +45,8 @@ Param(
   [string]$ExcludeUserName = [string]::Empty,
   [uint32]$InactiveDays = [uint32]::MaxValue,
   [string[]]$ComputerName = $env:computername,
-  [switch]$IncludeSpecialUsers = $False
+  [switch]$IncludeSpecialUsers = $False,
+  [switch]$Force = $False
 )
 
 Set-strictmode -version latest
@@ -106,7 +109,7 @@ ForEach ($computer in $ComputerName)
        Continue
       }
 
-      If ($PSCmdlet.ShouldProcess($account)) {
+      If ($Force -Or $PSCmdlet.ShouldProcess($account)) {
         Try {
           $profile.Delete()           
           Write-Host "Profile deleted successfully" -ForegroundColor Green        
