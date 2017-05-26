@@ -1,12 +1,12 @@
 # Description
 Delete user profiles on local or remote computer that match the search criteria, the session in which you are running the script must be started with elevated user rights (Run as Administrator).
 
-***Version: 1.1 - Date: 05/26/2017***
+**Version: 1.1 - Date: 05/26/2017**
 # Parameters
-- UserName
-User Name to delete user profile, is possible use the '*' wildchar.
-- ExcludeUserName
-User name to exclude, is possible use the '*' wildchar.
+**UserName**
+*User Name to delete user profile, is possible use the '*' wildchar.*
+**ExcludeUserName**
+*User name to exclude, is possible use the '*' wildchar.*
 ## PARAMETER InactiveDays
 Inactive days of the profile, this parameter is optional and specify that the profile will be deleted only if not used for the specifed days.
 ## PARAMETER ComputerName
