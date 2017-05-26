@@ -18,22 +18,25 @@
 .PARAMETER Force
    Force execution without require confirm (the default value is False).
 .EXAMPLE
-   ./Remove-UserProfile.ps1 LoganJ
+   ./Remove-UserProfile.ps1 -UserName "LoganJ"
    Delete the profile of the user with user name equal LoganJ.
 .EXAMPLE
-   ./Remove-UserProfile.ps1 Logan*
+   ./Remove-UserProfile.ps1 -UserName "Logan*"
    Delete all user profiles of the user with user name begin with "Logan".
 .EXAMPLE
-   ./Remove-UserProfile.ps1 * -InactiveDays 30
+   ./Remove-UserProfile.ps1 -UserName "*" -InactiveDays 30
    Delete all user profiles inactive by 30 days.
 .EXAMPLE
-   ./Remove-UserProfile.ps1 * -ExcludeUserName Admistrator
+   ./Remove-UserProfile.ps1 -UserName "*" -ExcludeUserName Admistrator
    Delete all user profiles exclude user name Administrator
+.EXAMPLE
+   ./Remove-UserProfile.ps1 -UserName "*" -Force
+   Delete all user profiles without require confim
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    04/07/2017 
-   Version: 1.0 
+   Date:    05/26/2017 
+   Version: 1.1 
 .LINK  
 #>
 
