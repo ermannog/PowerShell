@@ -5,30 +5,31 @@ Delete user profiles on local or remote computer that match the search criteria,
 # Parameters
 **UserName**
 
-*User Name to delete user profile, is possible use the '*' wildchar.*
+User Name to delete user profile, is possible use the '*' wildchar.
 
 **ExcludeUserName**
 
-*User name to exclude, is possible use the '*' wildchar.*
+User name to exclude, is possible use the '*' wildchar.
 
 **InactiveDays**
 
-*Inactive days of the profile, this parameter is optional and specify that the profile will be deleted only if not used for the specifed days.*
+Inactive days of the profile, this parameter is optional and specify that the profile will be deleted only if not used for the specifed days.
 
 **ComputerName**
 
-*Host name or list of host names on witch delete user profile, this parameter is optional (the default value is local computer).*
+Host name or list of host names on witch delete user profile, this parameter is optional (the default value is local computer).
 
 **IncludeSpecialUsers**
 
-*Include also special system service in the search, this parameter is optional (the default value is False).*
+Include also special system service in the search, this parameter is optional (the default value is False).
 
 **Force**
 
-*Force execution without require confirm (the default value is False).*
+Force execution without require confirm (the default value is False).
 
 # Examples
-## EXAMPLE 1: Delete the profile of the user with user name equal LoganJ
+**EXAMPLE 1: Delete the profile of the user with user name equal LoganJ**
+
 ./Remove-UserProfile.ps1 LoganJ
 ## EXAMPLE 2: *Delete all user profiles of the user with user name begin with "Logan".*
 ./Remove-UserProfile.ps1 Logan*
