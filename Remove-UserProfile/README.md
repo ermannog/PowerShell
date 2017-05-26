@@ -1,8 +1,6 @@
-# Version 1.1 (05/26/2017)
-# SYNOPSIS
-Delete user profiles on local or remote computer, the session in which you are running the script must be started with elevated user rights (Run as Administrator).
-# DESCRIPTION
-This script delete the user profiles on local o remote computer that match the search criteria.
+Delete user profiles on local or remote computer that match the search criteria, the session in which you are running the script must be started with elevated user rights (Run as Administrator).
+***Version: 1.1***
+***Date: 05/26/2017***
 ## PARAMETER UserName
 User Name to delete user profile, is possible use the '*' wildchar.
 ## PARAMETER ExcludeUserName
@@ -18,7 +16,7 @@ Force execution without require confirm (the default value is False).
 ## EXAMPLE
 ./Remove-UserProfile.ps1 LoganJ
 *Delete the profile of the user with user name equal LoganJ.*
-###.EXAMPLE
+### EXAMPLE
 ./Remove-UserProfile.ps1 Logan*
 *Delete all user profiles of the user with user name begin with "Logan".*
 ### EXAMPLE
