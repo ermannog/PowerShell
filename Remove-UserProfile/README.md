@@ -1,3 +1,4 @@
+# Version 1.1 (05/26/2017)
 # SYNOPSIS
 Delete user profiles on local or remote computer, the session in which you are running the script must be started with elevated user rights (Run as Administrator).
 # DESCRIPTION
@@ -18,16 +19,11 @@ Force execution without require confirm (the default value is False).
 ./Remove-UserProfile.ps1 LoganJ
 *Delete the profile of the user with user name equal LoganJ.*
 ###.EXAMPLE
-   ./Remove-UserProfile.ps1 Logan*
-   Delete all user profiles of the user with user name begin with "Logan".
-.EXAMPLE
-   ./Remove-UserProfile.ps1 * -InactiveDays 30
-   Delete all user profiles inactive by 30 days.
-.EXAMPLE
-   ./Remove-UserProfile.ps1 * -ExcludeUserName Admistrator
-   Delete all user profiles exclude user name Administrator
-.NOTES
-   Author:  Ermanno Goletto
-   Blog:    www.devadmin.it
-   Date:    05/26/2017 
-   Version: 1.1  
+./Remove-UserProfile.ps1 Logan*
+*Delete all user profiles of the user with user name begin with "Logan".*
+### EXAMPLE
+./Remove-UserProfile.ps1 * -InactiveDays 30
+*Delete all user profiles inactive by 30 days.*
+### .EXAMPLE
+./Remove-UserProfile.ps1 * -ExcludeUserName Admistrator
+*Delete all user profiles exclude user name Administrator*
