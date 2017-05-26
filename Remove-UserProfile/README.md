@@ -33,10 +33,13 @@ Force execution without require confirm (the default value is False).
 ./Remove-UserProfile.ps1 LoganJ
 
 **EXAMPLE 2:** *Delete all user profiles of the user with user name begin with "Logan"*
+
 ./Remove-UserProfile.ps1 Logan*
 
 **EXAMPLE 3:** *Delete all user profiles inactive by 30 days.*
+
 ./Remove-UserProfile.ps1 * -InactiveDays 30
 
 **.EXAMPLE 4:** *Delete all user profiles exclude user name Administrator*
+
 ./Remove-UserProfile.ps1 * -ExcludeUserName Admistrator
