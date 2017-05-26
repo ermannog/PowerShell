@@ -14,15 +14,11 @@ Host name or list of host names on witch delete user profile, this parameter is 
 Include also special system service in the search, this parameter is optional (the default value is False).
 ## PARAMETER Force
 Force execution without require confirm (the default value is False).
-## EXAMPLE
+### EXAMPLE 1: Delete the profile of the user with user name equal LoganJ
 ./Remove-UserProfile.ps1 LoganJ
-*Delete the profile of the user with user name equal LoganJ.*
-### EXAMPLE
+### EXAMPLE 2: *Delete all user profiles of the user with user name begin with "Logan".*
 ./Remove-UserProfile.ps1 Logan*
-*Delete all user profiles of the user with user name begin with "Logan".*
-### EXAMPLE
+### EXAMPLE 3: *Delete all user profiles inactive by 30 days.*
 ./Remove-UserProfile.ps1 * -InactiveDays 30
-*Delete all user profiles inactive by 30 days.*
-### .EXAMPLE
+### .EXAMPLE: *Delete all user profiles exclude user name Administrator*
 ./Remove-UserProfile.ps1 * -ExcludeUserName Admistrator
-*Delete all user profiles exclude user name Administrator*
