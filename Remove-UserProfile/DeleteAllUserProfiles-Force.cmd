@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy RemoteSigned -Command %~dp0\Remove-UserProfile.ps1 -UserName "*" -Force
