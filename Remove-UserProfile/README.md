@@ -3,9 +3,9 @@ Delete user profiles on local or remote computer that match the search criteria,
 
 ***Version: 1.1 - Date: 05/26/2017***
 # Parameters
-## PARAMETER UserName
+- UserName
 User Name to delete user profile, is possible use the '*' wildchar.
-## PARAMETER ExcludeUserName
+- ExcludeUserName
 User name to exclude, is possible use the '*' wildchar.
 ## PARAMETER InactiveDays
 Inactive days of the profile, this parameter is optional and specify that the profile will be deleted only if not used for the specifed days.
