@@ -8,4 +8,4 @@ Script that performs the following steps:
 - Export public key on CER file
 
 ## Remove-UserProfile
-Delete user profiles on local or remote computer, the session in which you are running the script must be started with elevated user rights (Run as Administrator). 
+Delete user profiles on local or remote computer that match the search criteria
