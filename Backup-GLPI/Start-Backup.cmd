@@ -10,7 +10,8 @@ SET MariaDBBackupsRetained=30
 
 REM *** Impostazioni di configurazione Backup Database GLPI ***
 SET BackupGLPIDatabaseRoot=Z:\Backup-DB-GLPI
-SET GLPIDatabaseName=glpiSET GLPIDBBackupsRetained=30
+SET GLPIDatabaseName=glpi
+SET GLPIDatabaseName=30
 
 REM *** Backup MariaDB ***
 powershell -ExecutionPolicy RemoteSigned -File %~dp0\Backup-MariaDB.ps1 "%MariaBackupFile%" %BackupMariaDBRoot% %MariaDBHost% %User% %Password% %MariaDBBackupsRetained%
