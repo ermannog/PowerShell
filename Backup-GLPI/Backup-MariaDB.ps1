@@ -1,6 +1,7 @@
 Param( 
  [string]$MariaBackupFile, 
- [string]$BackupRoot ,
+ [string]$BackupRoot,
+ [string]$MariaDBHost,
  [string]$User,
  [string]$Password,
  [uint32]$BackupsRetained
@@ -24,9 +25,10 @@ New-Item -ItemType Directory -Force -Path $BackupPath
 $TargetArg = "--target-dir=" + $BackupPath
 $UserArg = "--user=" + $User
 $PasswordArg = "--password=" + $password
+$MariaDBHostArg = "--host=" + $MariaDBHost
 
 # Invoke-Expression $BackupMariaDBCommand
-Start-Process -NoNewWindow -FilePath $MariaBackupFile -ArgumentList "--backup", $TargetArg, $UserArg, $PasswordArg, "--host=."
+Start-Process -NoNewWindow -FilePath $MariaBackupFile -ArgumentList "--backup", $TargetArg, $UserArg, $PasswordArg, $MariaDBHostArg
 
 # Eliminazione backup obsoleti
 $BackupDirectories = (Get-ChildItem -Directory $BackupRoot | Sort FullName)
