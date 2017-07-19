@@ -23,7 +23,7 @@ $BackupPath=$BackupRoot + "\" + (Get-Date -format yyyy-MM-dd)
 If (Test-Path $BackupPath) {Remove-Item $BackupPath -Force -Recurse}
 New-Item -ItemType Directory -Force -Path $BackupPath
 
-# Avvio backup MariaDB
+# Avvio backup Database GLPI
 $TargetArg = "--target-dir=" + $BackupPath
 $MariaDBHostArg = "--host=" + $MariaDBHost
 $GLPIDatabaseNameArg = "--databases=" + $GLPIDatabaseName
