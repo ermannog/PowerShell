@@ -16,6 +16,7 @@ SET GLPIDatabaseBackupsRetained=30
 REM *** Impostazioni di configurazione Backup Web Application GLPI ***
 SET GLPIWebApplicationBackupRoot=Z:\Backup-WebApplication-GLPI
 SET GLPIWebApplicationPath=C:\inetpub\wwwroot\glpi
+SET GLPIWebSiteName="Default Web Site"
 SET GLPIWebApplicationBackupsRetained=30
 
 REM *** Backup MariaDB ***
@@ -25,4 +26,4 @@ REM *** Backup Database GLPI ***
 powershell -ExecutionPolicy RemoteSigned -File %~dp0\Backup-DB-GLPI.ps1 "%MariaBackupFile%" %GLPIDatabaseBackupRoot% %MariaDBHost% %GLPIDatabaseName% %User% %Password% %GLPIDatabaseBackupsRetained%
 
 REM *** Backup Web Application GLPI ***
-powershell -ExecutionPolicy RemoteSigned -File %~dp0\Backup-WebApplication-GLPI.ps1 %GLPIWebApplicationBackupRoot% %GLPIWebApplicationPath% %GLPIWebApplicationBackupsRetained%
+powershell -ExecutionPolicy RemoteSigned -File %~dp0\Backup-WebApplication-GLPI.ps1 %GLPIWebApplicationBackupRoot% %GLPIWebApplicationPath% %GLPIWebSiteName% %GLPIWebApplicationBackupsRetained%
