@@ -29,7 +29,7 @@ $UserArg = "--user=" + $User
 $PasswordArg = "--password=" + $password
 
 # Invoke-Expression $BackupMariaDBCommand
-Start-Process -NoNewWindow -FilePath $MariaBackupFile -ArgumentList "--backup", $TargetArg, $MariaDBHostArg, $UserArg, $PasswordArg
+Start-Process -NoNewWindow -Wait -FilePath $MariaBackupFile -ArgumentList "--backup", $TargetArg, $MariaDBHostArg, $UserArg, $PasswordArg
 
 # Eliminazione backup obsoleti
 $BackupDirectories = (Get-ChildItem -Directory $BackupRoot | Sort FullName)
