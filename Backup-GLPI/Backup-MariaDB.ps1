@@ -28,7 +28,6 @@ $MariaDBHostArg = "--host=" + $MariaDBHost
 $UserArg = "--user=" + $User
 $PasswordArg = "--password=" + $password
 
-# Invoke-Expression $BackupMariaDBCommand
 Start-Process -NoNewWindow -Wait -FilePath $MariaBackupFile -ArgumentList "--backup", $TargetArg, $MariaDBHostArg, $UserArg, $PasswordArg
 
 # Eliminazione backup obsoleti
