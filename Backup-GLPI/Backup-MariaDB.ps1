@@ -12,6 +12,7 @@ Set-strictmode -version latest
 # Impostazioni di Test
 #$MariaBackupFile= $env:ProgramFiles + "\MariaDB 10.2\bin\mariabackup.exe"
 #$BackupRoot="Z:\Backup-MariaDB"
+#$MariaDBHost="."
 #$User="root"
 #$Password="P@assW0rd!"
 #$BackupsRetained = 10
@@ -23,12 +24,12 @@ New-Item -ItemType Directory -Force -Path $BackupPath
 
 # Avvio backup MariaDB
 $TargetArg = "--target-dir=" + $BackupPath
+$MariaDBHostArg = "--host=" + $MariaDBHost
 $UserArg = "--user=" + $User
 $PasswordArg = "--password=" + $password
-$MariaDBHostArg = "--host=" + $MariaDBHost
 
 # Invoke-Expression $BackupMariaDBCommand
-Start-Process -NoNewWindow -FilePath $MariaBackupFile -ArgumentList "--backup", $TargetArg, $UserArg, $PasswordArg, $MariaDBHostArg
+Start-Process -NoNewWindow -FilePath $MariaBackupFile -ArgumentList "--backup", $TargetArg, $MariaDBHostArg, $UserArg, $PasswordArg
 
 # Eliminazione backup obsoleti
 $BackupDirectories = (Get-ChildItem -Directory $BackupRoot | Sort FullName)
