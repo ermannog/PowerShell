@@ -15,3 +15,6 @@ Script for retreive info of Computer save on a json file
 
 ## Remove-UserProfile
 Delete user profiles on local or remote computer that match the search criteria
+
+## Start-WsusIISAppPool
+Chech the state of IIS Application Pool WsusPool and start the pool if is stopped
