@@ -13,6 +13,9 @@ Script that performs the following steps:
 ## Get-ComputerInfo
 Script for retreive info of Computer save on a json file
 
+## Get-WSUSReportComputersInError
+Create a summary of computers with update in error
+
 ## Remove-UserProfile
 Delete user profiles on local or remote computer that match the search criteria
 
