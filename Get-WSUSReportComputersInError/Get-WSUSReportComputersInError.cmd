@@ -1,3 +1,4 @@
 REM *** Avvio task di notifica ***
-PowerShell -ExecutionPolicy RemoteSigned -File %~dp0WSUS-SendComputersInErrorNotification.ps1 %LogFilePath%
+PowerShell -ExecutionPolicy RemoteSigned -File %~dp0Get-WSUSReportComputersInError.ps1 -SendReportByMail -SmtpServer "mailserver.example.com" -MailFrom "wsus@example.com" -MailTo "alert@example.com"
+
 

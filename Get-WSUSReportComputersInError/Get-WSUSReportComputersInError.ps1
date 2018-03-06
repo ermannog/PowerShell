@@ -1,27 +1,41 @@
 <#
 .SYNOPSIS
-   Get summary of computers with update in error and send an html report by mail.
+   Get summary of computers with update in error.
 .DESCRIPTION
-   This script create a summary of computers with update, if necessary is possible change the Settings section for check is the computer is active and send an html report by mail.
+   This script create a summary of computers with update in error and allows to send an html report by mail.
+.PARAMETER CheckActive
+   Check if computer is active by sending ICMP echo request packets ("pings").
+.PARAMETER SendReportByMail
+   Send an html report by mail of computers with update in error.
+.PARAMETER SmtpServer
+   Specifies the name of the SMTP server that sends the email message.
+   The default value is the value of the $PSEmailServer preference variable. If the preference variable is not set and this parameter is omitted, the command fails.
+.PARAMETER MailFrom
+   Specifies the address from which the mail is sent. Enter a name (optional) and email address, such as Name <someone@example.com>. This parameter is required.
+.PARAMETER MailTo
+   Specifies the addresses to which the mail is sent. Enter names (optional) and the email address, such as Name <someone@example.com>. This parameter is required.
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
    Date:    03/06/2017 
-   Version: 1.0 
+   Version: 1.1 
 .LINK  
 #>
 
+Param(
+  [switch]$CheckActive = $True,
+  [switch]$SendReportByMail = $False,
+  [string]$SmtpServer = [string]::Empty,
+  [string]$MailFrom = [string]::Empty,
+  [string]$MailTo = [string]::Empty
+  )
+
 Set-StrictMode -Version Latest
 
-# Settings
-$checkActive = $True
-$sendReportByMail = $True
-$smtpServer = "mailserver.domain.ext"
-$mailFrom = "wsusserver@domain.ext"
-$mailTo = "alert@domain.ext"
 
 # Costants
 $HeaderChars = 32
+
 
 # Initializations
 [reflection.assembly]::LoadWithPartialName("Microsoft.UpdateServices.Administration") | out-null
@@ -124,21 +138,44 @@ ForEach ($computerFailed In $summariesComputerFailed) {
   $reportHtmlBody += $outputText + "<br>"
 
   # Active
-  If ($checkActive) {
+  If ($CheckActive) {
     $outputText = " Active".PadRight($HeaderChars) + ": " + (Test-Connection $computer.FullDomainName -Count 1 -Quiet)
     Write-Host $outputText
     $reportHtmlBody += $outputText + "<br>"
   }
-}
+
+  # Separator
+  $outputText = " " + "-" * ($HeaderChars - 2)
+  Write-Host $outputText
+  $reportHtmlBody += $outputText + "<br>"
+
+  # Failed Updates
+  $computerUpdatesFailed = ($wsus.GetComputerTargets($computerScope) | Where-Object Id -EQ $computerFailed.ComputerTargetId).GetUpdateInstallationInfoPerUpdate($updateScope) | Where UpdateInstallationState -EQ Failed
+
+  $computerUpdateFailedIndex=0
+  ForEach ($update In $computerUpdatesFailed) {
+    If ($computerUpdateFailedIndex -EQ 0){
+      $outputText = " Failed updates".PadRight($HeaderChars) + ": "
+    }
+    Else{
+      $outputText = "".PadRight($HeaderChars+2)
+    }
+      $outputText += $wsus.GetUpdate($update.UpdateId).Title
+      Write-Host $outputText
+      $reportHtmlBody += $outputText + "<br>"
+
+      $computerUpdateFailedIndex += 1
+    }
+ }
 
 # Sending the report by mail
-If ($sendReportByMail){
+If ($SendReportByMail){
   $mailSubject = "WSUS verifica computer con aggiornamenti in errore"
 
   $mailBody = $reportHtmlHeader
   $mailBody += "<pre>" + $reportHtmlBody + "</pre>"
 
-  Send-MailMessage -To $mailTo -Subject $mailSubject -From $mailFrom -Body $mailBody -SmtpServer $smtpServer -Encoding Default -BodyAsHtml
+  Send-MailMessage -To $MailTo -Subject $mailSubject -From $MailFrom -Body $mailBody -SmtpServer $SmtpServer -Encoding Default -BodyAsHtml
 
-  Write-Host ("`n" + "Invio report sulla mail " + $mailTo + " eseguito.")
+  Write-Host ("`n" + "Invio report sulla mail " + $MailTo + " eseguito.")
 }
