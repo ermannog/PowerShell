@@ -17,8 +17,8 @@
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    03/06/2017 
-   Version: 1.1 
+   Date:    03/07/2017 
+   Version: 1.2 
 .LINK  
 #>
 
@@ -44,6 +44,7 @@ $computerScope = New-Object Microsoft.UpdateServices.Administration.ComputerTarg
 $updateScope = New-Object Microsoft.UpdateServices.Administration.UpdateScope
 $summariesComputerFailed = $wsus.GetSummariesPerComputerTarget($updateScope,$computerScope) | Where-Object FailedCount -NE 0 | Sort-Object FailedCount -Descending | Sort-Object UnknownCount -Descending
 $computers = Get-WsusComputer
+$computersErrorEvents = $wsus.GetUpdateEventHistory([System.DateTime]::Today.AddDays(-7), [System.DateTime]::Today) | Where-Object ComputerId -ne Guid.Empty | Where-Object IsError -eq True
 $outputText = ""
 
 
@@ -68,7 +69,7 @@ ForEach ($computerFailed In $summariesComputerFailed) {
   $reportHtmlBody += "<br>"
   
   # FullDomainName e IP
-  $outputText = $computer.FullDomainName + " (IP:" + $computer.IPAddress + ")"
+  $outputText = $computer.FullDomainName + " (IP:" + $computer.IPAddress + " - Wsus Id:" + $computerFailed.ComputerTargetId + ")"
   Write-Host ("`n" + $outputText) -ForegroundColor Yellow
   $reportHtmlBody += "<b>" + $outputText + "</b><br>"
 
@@ -128,12 +129,12 @@ ForEach ($computerFailed In $summariesComputerFailed) {
   $reportHtmlBody += $outputText + "<br>"
 
   # Last sync time
-  $outputText = " Last sync time".PadRight($HeaderChars) + ": " + $computer.LastSyncTime
+  $outputText = " Last sync time".PadRight($HeaderChars) + ": " + ($computer.LastSyncTime).ToString()
   Write-Host $outputText
   $reportHtmlBody += $outputText + "<br>"
 
   # Last updated
-  $outputText = " Last update".PadRight($HeaderChars) + ": " + $computerFailed.LastUpdated
+  $outputText = " Last update".PadRight($HeaderChars) + ": " + ($computerFailed.LastUpdated).ToString()
   Write-Host $outputText
   $reportHtmlBody += $outputText + "<br>"
 
@@ -160,12 +161,40 @@ ForEach ($computerFailed In $summariesComputerFailed) {
     Else{
       $outputText = "".PadRight($HeaderChars+2)
     }
-      $outputText += $wsus.GetUpdate($update.UpdateId).Title
+
+    $outputText += $wsus.GetUpdate($update.UpdateId).Title
+    Write-Host $outputText
+    $reportHtmlBody += $outputText + "<br>"
+
+    $computerUpdateFailedIndex += 1
+  }
+
+
+  # Error events of the last 7 days
+  $computerErrorEvents = $computersErrorEvents | Where-Object ComputerId -EQ $computerFailed.ComputerTargetId | Sort-Object CreationDate -Descending
+
+  $computerErrorEventIndex=0
+  ForEach ($event In $computerErrorEvents) {
+    If ($computerErrorEventIndex -EQ 0){
+      # Separator
+      $outputText = " " + "-" * ($HeaderChars - 2)
       Write-Host $outputText
       $reportHtmlBody += $outputText + "<br>"
 
-      $computerUpdateFailedIndex += 1
+      $outputText = " Error events of the last 7 days".PadRight($HeaderChars) + ": "
     }
+    Else{
+      $outputText = "".PadRight($HeaderChars+2)
+    }
+
+    $outputText += ($event.CreationDate).ToString() + " " + $event.WsusEventId
+    Write-Host $outputText -ForegroundColor Magenta
+    $reportHtmlBody += "<font color ='magenta'>" + $outputText + "</font><br>"
+
+    $computerErrorEventIndex += 1
+  }
+
+
  }
 
 # Sending the report by mail
