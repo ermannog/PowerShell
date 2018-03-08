@@ -17,8 +17,8 @@
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    03/07/2018 
-   Version: 1.2 
+   Date:    03/08/2018 
+   Version: 1.3 
 .LINK  
 #>
 
@@ -42,7 +42,7 @@ $HeaderChars = 32
 $wsus = [Microsoft.UpdateServices.Administration.AdminProxy]::GetUpdateServer()
 $computerScope = New-Object Microsoft.UpdateServices.Administration.ComputerTargetScope
 $updateScope = New-Object Microsoft.UpdateServices.Administration.UpdateScope
-$summariesComputerFailed = $wsus.GetSummariesPerComputerTarget($updateScope,$computerScope) | Where-Object FailedCount -NE 0 | Sort-Object FailedCount -Descending | Sort-Object UnknownCount -Descending
+$summariesComputerFailed = $wsus.GetSummariesPerComputerTarget($updateScope,$computerScope) | Where-Object FailedCount -NE 0 | Sort-Object FailedCount, UnknownCount, NotInstalledCount -Descending
 $computers = Get-WsusComputer
 $computersErrorEvents = $wsus.GetUpdateEventHistory([System.DateTime]::Today.AddDays(-7), [System.DateTime]::Today) | Where-Object ComputerId -ne Guid.Empty | Where-Object IsError -eq True
 $outputText = ""
@@ -130,8 +130,15 @@ ForEach ($computerFailed In $summariesComputerFailed) {
 
   # Last sync time
   $outputText = " Last sync time".PadRight($HeaderChars) + ": " + ($computer.LastSyncTime).ToString()
-  Write-Host $outputText
-  $reportHtmlBody += $outputText + "<br>"
+  If ($computer.LastSyncTime -LE [System.DateTime]::Today.AddDays(-7)){
+      Write-Host $outputText -ForegroundColor Magenta
+      $reportHtmlBody +=  "<font color ='magenta'>" + $outputText + "</font><br>"
+  }
+  Else {
+    Write-Host $outputText
+    $reportHtmlBody += $outputText + "<br>"
+  }
+
 
   # Last updated
   $outputText = " Last update".PadRight($HeaderChars) + ": " + ($computerFailed.LastUpdated).ToString()
