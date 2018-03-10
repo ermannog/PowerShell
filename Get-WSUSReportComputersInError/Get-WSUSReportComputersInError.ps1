@@ -17,8 +17,8 @@
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    03/08/2018 
-   Version: 1.3 
+   Date:    03/10/2018 
+   Version: 1.4 
 .LINK  
 #>
 
@@ -49,7 +49,7 @@ $outputText = ""
 
 
 # Creating the report header
-If ($summariesComputerFailed -EQ 0){
+If ($summariesComputerFailed -EQ 0 -or $summariesComputerFailed -EQ $null){
   $outputText = "No computers were found on the WSUS server (" + $wsus.ServerName + ") with updates in error!"
   Write-Host ("`n" + $outputText) -ForegroundColor Green
   $reportHtmlHeader = "<font color ='green'><b>" + $outputText + "</b></font>"
