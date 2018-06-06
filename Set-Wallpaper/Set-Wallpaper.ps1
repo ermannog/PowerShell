@@ -13,12 +13,16 @@
    Blog:    www.devadmin.it
    Date:    06/04/2018 
    Version: 1.0 
-.LINK  
+.LINK
+   https://github.com/ermannog/PowerShell/tree/master/Set-Wallpaper
 #>
 
 Param(
   [Parameter(Mandatory=$True)]
-  [string]$FilePath
+  [String]$FilePath,
+  [ValidateSet('Center','Fill','Fit', 'Streatch', 'Tile')]
+  [String]
+  $Location = 'Center'
 )
 
 
@@ -41,3 +45,31 @@ Set-Variable SPIF_UPDATEINIFILE -Option Constant -Value 0x01
 Set-Variable SPIF_SENDCHANGE -Option Constant -Value 0x02
 
 [Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+
+
+# Set Wallpaper location
+Switch ( $Location )
+  {
+    Center
+      {
+        Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name WallpaperStyle -Value 0
+        Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name TileWallpaper -Value 0
+      }
+    Tile
+     {
+        Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name WallpaperStyle -Value 0
+        Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name TileWallpaper -Value 1
+     }
+    Streatch
+     {
+        Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name WallpaperStyle -Value 2
+     }
+    Fit
+      {
+        Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name WallpaperStyle -Value 6
+      }
+    Fill
+      {
+        Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop\' -Name WallpaperStyle -Value 10
+    }
+  }
