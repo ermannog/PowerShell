@@ -1,0 +1,43 @@
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)www.devadmin.it
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+
+
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
+
+[Win32Functions.PInvoke]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $FilePath, $SPIF_UPDATEINIFILE -bor $SPIF_SENDCHANGE)
