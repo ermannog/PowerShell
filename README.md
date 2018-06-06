@@ -19,5 +19,8 @@ Create a summary of computers with update in error
 ## Remove-UserProfile
 Delete user profiles on local or remote computer that match the search criteria
 
+## Set-Wallpaper
+Set wallpaper desktop image whit and image file specified and set wallpaper location
+
 ## Start-WsusIISAppPool
 Chech the state of IIS Application Pool WsusPool and start the pool if is stopped
