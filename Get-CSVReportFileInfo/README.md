@@ -22,4 +22,4 @@ Allows to get files that cannot otherwise not be accessed by the user such as hi
 # Examples
 **EXAMPLE 1:** *Get CSV report of file info in the temp path of current user and save it in the file C:\Reports\TempDirFileInfo.csv*
 
-./Get-CSVReportFileInfo.ps1  -Path "%tempJ" -OutputCSVFile "C:\Reports\TempDirFileInfo.csv"
+./Get-CSVReportFileInfo.ps1  -Path "%temp%" -OutputCSVFile "C:\Reports\TempDirFileInfo.csv"
