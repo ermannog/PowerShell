@@ -7,9 +7,16 @@
    Path of where retrive file information.
 .PARAMETER OutputCSVFile
    Path of CSV Report.
+.PARAMETER Recurse
+   Allows to get files in all subdirectories (the default value is False).
+.PARAMETER Force
+   Allows to get files that cannot otherwise not be accessed by the user such as hidden or system files, even when using the -Force parameter the cmdlet cannot override security restrictions (the default value is False).
 .EXAMPLE
-   ./Get-CSVReportFileInfo.ps1 "C:\Temp" "C:\Reports\TempDirFileInfo.csv"
-   Get a Report in CSV format of file information in the specified path C:\Images\Wallpaper.png.
+   ./Get-CSVReportFileInfo.ps1 "%Temp%" "C:\Reports\TempDirFileInfo.csv"
+   Get a Report in CSV format of file information in the temp path of the current user and save it in the file C:\Reports\TempDirFileInfo.csv.
+
+   ./Get-CSVReportFileInfo.ps1 "%Temp%" "C:\Reports\TempDirFileInfo.csv" -Recurse:$False -Force:$False
+   Get a Report in CSV format of file information in the temp path of the current user without use recursion and without search for hidden or system files and save it in the file C:\Reports\TempDirFileInfo.csv.
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
@@ -23,9 +30,9 @@ Param(
   [Parameter(Mandatory=$True)]
   [String]$Path,
   [Parameter(Mandatory=$True)]
-  [String]
-  $OutputCSVFile,
-  [Switch]$Recurse = $True
+  [String]$OutputCSVFile,
+  [Switch]$Recurse = $True,
+  [Switch]$Force = $True
 )
 
 Set-strictmode -version latest
@@ -43,8 +50,14 @@ Function Get-FriendlySize {
 }
 
 # Search files in the path
-If ($Recurse){
-  $Files = Get-ChildItem $Path -File -Recurse
+If ($Recurse -And $Force){
+  $Files = Get-ChildItem $Path -File -Recurse -Force
+}
+ElseIf ($Recurse){
+  $Files = Get-ChildItem $Path -File -Recurse -Force
+}
+ElseIf ($Force){
+  $Files = Get-ChildItem $Path -File -Recurse -Force
 }
 Else {
   $Files = Get-ChildItem $Path -File
