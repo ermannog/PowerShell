@@ -1,5 +1,5 @@
 # Description
-DGet a Report in CSV format of file information in the specified path.
+Get a Report in CSV format of file information in the specified path.
 
 **Version: 1.0 - Date: 08/24/2018**
 # Parameters
