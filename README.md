@@ -19,7 +19,8 @@ Create a summary of computers with update in error
 ## Remove-UserProfile
 Delete user profiles on local or remote computer that match the search criteria
 
-##Send-DriveReportMail
+## Send-DriveReportMail
+Send mail message with a report with info on size and free space of a drive
 
 ## Set-Wallpaper
 Set wallpaper desktop image with and image file specified and set wallpaper location
