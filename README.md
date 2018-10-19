@@ -10,6 +10,7 @@ Script that performs the following steps:
 - Export certificate on PFX file with entire chain and all external properties 
 - Export public key on CER file
 
+## Get-CSVReportFileInfo
 Get a Report in CSV format of file information in the specified path
 
 ## Get-ComputerInfo
