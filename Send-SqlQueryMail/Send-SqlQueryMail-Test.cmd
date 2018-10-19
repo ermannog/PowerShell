@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy RemoteSigned -Command %~dp0Send-SqlQueryMail.ps1 -QueryFiles '%~dp0TestQuery-Summary.sql', '%~dp0TestQuery-Details.sql' -ServerInstance 'localhost' -Database 'Test' -Subject 'Test query' -From %COMPUTERNAME%@contoso.com -SmtpServer mail.contoso.com -To report@contoso.com -AttachCSV
