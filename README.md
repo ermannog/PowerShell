@@ -25,6 +25,9 @@ Delete user profiles on local or remote computer that match the search criteria
 ## Send-DriveReportMail
 Send mail message with a report with info on size and free space of a drive
 
+## Send-SqlQueryMail
+Send mail message with a report generate by a query on Sql Sever
+
 ## Set-Wallpaper
 Set wallpaper desktop image with and image file specified and set wallpaper location
 
