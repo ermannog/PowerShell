@@ -1,7 +1,7 @@
 # Description
 This script send mail message with a report generate by a query on Sql Sever.
 
-**Version: 1.0 - Date: 016/10/2018**
+**Version: 1.0 - Date: 16/10/2018**
 
 # Parameters
 
