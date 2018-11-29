@@ -19,6 +19,9 @@ Script for retreive info of Computer save on a json file
 ## Get-WSUSReportComputersInError
 Create a summary of computers with update in error
 
+## Queries
+PowerShell miscellaneous queries
+
 ## Remove-UserProfile
 Delete user profiles on local or remote computer that match the search criteria
 
