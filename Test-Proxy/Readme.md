@@ -28,4 +28,5 @@ Specifies the Password of User Name to authenticate with the proxy. This paramet
 # Examples
 
 ./Test-WebProxy.ps1 -Url https://www.microsoft.com -ProxyHost proxy.contoso.com -ProxyPort 8080
+
 ./Test-WebProxy.ps1 -Url https://www.microsoft.com -ProxyHost proxy.contoso.com -ProxyPort 8080 -UserName usertest@contoso.com -Password P@assW0rd!
