@@ -2,4 +2,4 @@
 
 **Check if a user has the AccountExpirationDate set:**
 
-*`(get-aduser **username** -properties AccountExpirationDate).AccountExpirationDate -eq $null`*
+*`(get-aduser __username__ -properties AccountExpirationDate).AccountExpirationDate -eq $null`*
