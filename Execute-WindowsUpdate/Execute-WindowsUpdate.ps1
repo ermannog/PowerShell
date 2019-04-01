@@ -19,10 +19,12 @@
    Specifies if send the log by mail. This parameter is optional (the default value is False).
 .PARAMETER MailFrom
    Specifies the address from which the mail is sent. Enter a name (optional) and email address, such as Name <someone@example.com>.
+.PARAMETER MailTo
+   Specifies the addresses to which the mail is sent. Enter names (optional) and the email address, such as Name <someone@example.com>.
 .PARAMETER SmtpServer
    Specifies the name of the SMTP server that sends the email message.
-.PARAMETER To
-   Specifies the addresses to which the mail is sent. Enter names (optional) and the email address, such as Name <someone@example.com>.
+.EXAMPLE
+   ./Execute-WindowsUpdate.ps1 ExecutionPolicy RemoteSigned -Command %~dp0Execute-WindowsUpdate.ps1 -SendLogByMail -MailFrom %COMPUTERNAME%@contoso.com -MailTo report@contoso.com -SmtpServer mail.contoso.com
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
