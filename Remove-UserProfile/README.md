@@ -1,7 +1,7 @@
 # Description
 Delete user profiles on local or remote computer that match the search criteria, the session in which you are running the script must be started with elevated user rights (Run as Administrator).
 
-**Version: 1.1 - Date: 05/26/2017**
+**Version: 1.2 - Date: 07/25/2019**
 # Parameters
 **UserName**
 
