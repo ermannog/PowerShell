@@ -35,8 +35,8 @@
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    05/26/2017 
-   Version: 1.1 
+   Date:    07/25/2019 
+   Version: 1.2 
 .LINK  
 #>
 
@@ -93,7 +93,7 @@ ForEach ($computer in $ComputerName)
       If($ExcludeUserName -ne [string]::Empty -And -Not $ExcludeUserName.Contains("*") -And ($accountName.ToLower() -eq $ExcludeUserName.ToLower())){Continue}
       If($ExcludeUserName -ne [string]::Empty -And $ExcludeUserName.Contains("*") -And ($accountName.ToLower() -Like $ExcludeUserName.ToLower())){Continue}
 
-      If($InactiveDays -ne [uint32]::MaxValue -And $profileInactiveDays -le $InactiveDays){continue}
+      If($InactiveDays -ne [uint32]::MaxValue -And $profileUnusedDays -le $InactiveDays){continue}
 
       $profileFounds ++
 
