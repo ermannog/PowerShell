@@ -28,8 +28,8 @@
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    03/25/2019 
-   Version: 1.0 
+   Date:    02/26/2020 
+   Version: 1.1 
 .LINK  
 #>
 
@@ -225,17 +225,17 @@ Else {
   # Invio Log File
   If ($SendLogByMail){
     Write-Host -ForegroundColor Blue "Sending log by mail..."
-    $mailSubject = "Installazione aggiornamenti $UpdateType computer $($env:computername) [" + (Get-WmiObject -Class Win32_OperatingSystem).Description + "]"
+    $mailSubject = "Installazione aggiornamenti $UpdateType computer $($env:computername) [" + (Get-WmiObject -Class Win32_OperatingSystem).Caption + "]"
     $mailBody = Get-Content $logFile | Out-String
     
     If ($EndScriptOperation -eq 'Restart'){
-      $mailBody = $mailBody + "`nIl sistema verrà riavviato"
+      $mailBody = $mailBody + "`nIl sistema verrÃ  riavviato"
     }
     ElseIf ($flagRebootRequired -and ($EndScriptOperation -eq 'RestartIfRequired')){
-      $mailBody = $mailBody + "`nIl sistema verrà riavviato a seguito dell'installazione degli aggiornamenti che richiedono il riavvio"
+      $mailBody = $mailBody + "`nIl sistema verrÃ  riavviato a seguito dell'installazione degli aggiornamenti che richiedono il riavvio"
     }
     ElseIf ($EndScriptOperation -eq 'Shutdown'){
-      $mailBody = $mailBody + "`nIl sistema verrà arrestato"
+      $mailBody = $mailBody + "`nIl sistema verrÃ  arrestato"
     }
 
     Send-MailMessage -To $MailTo -Subject $mailSubject -From $MailFrom -Body $mailBody -SmtpServer $smtpServer -Encoding Default
@@ -243,7 +243,7 @@ Else {
   }
 
   # Eliminazione log file obsoleti
-  $logFiles = Get-ChildItem $LogFilePath –PipelineVariable item | Where {$item.psIsContainer -eq $false -and $item.FullName -like ($logFileNameBase + "*")} | Sort FullName
+  $logFiles = Get-ChildItem $LogFilePath Â–PipelineVariable item | Where {$item.psIsContainer -eq $false -and $item.FullName -like ($logFileNameBase + "*")} | Sort FullName
   $LogFilesCount = ($logFiles | Measure-Object).Count
   If ($LogFilesCount -gt $LogFilesRetained){
     Write-Host -ForegroundColor Blue "Remove old log files..."
