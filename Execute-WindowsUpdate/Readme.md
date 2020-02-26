@@ -1,7 +1,7 @@
 # Description
 This script execute Windows Update on local computer, , the session in which you are running the script must be started with elevated user rights.
 
-**Version: 1.0 - Date: 25/03/2019**
+**Version: 1.1 - Date: 25/02/2020**
 
 # Parameters
 
