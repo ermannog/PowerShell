@@ -225,7 +225,12 @@ Else {
   # Invio Log File
   If ($SendLogByMail){
     Write-Host -ForegroundColor Blue "Sending log by mail..."
-    $mailSubject = "Installazione aggiornamenti $UpdateType computer $($env:computername) [" + (Get-WmiObject -Class Win32_OperatingSystem).Caption + "]"
+   
+    $mailSubject = "Installazione aggiornamenti $UpdateType computer $($env:computername)"
+    If ((Get-WmiObject -Class Win32_OperatingSystem).Description —ne ""){
+      $mailSubject += " [" + (Get-WmiObject -Class Win32_OperatingSystem).Description + "]"
+    }
+    
     $mailBody = Get-Content $logFile | Out-String
     
     If ($EndScriptOperation -eq 'Restart'){
