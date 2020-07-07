@@ -15,3 +15,15 @@
 **Check if a user's password has expired:**
 
 *`(Get-ADUser username –Properties "msDS-UserPasswordExpiryTimeComputed" | Select @{Name="ExpiryDate";Expression={[datetime]::FromFileTime($_."msDS-UserPasswordExpiryTimeComputed")}}).ExpiryDate -lt (Get-Date)`*
+
+**Get primary group ID and name of a user:**
+
+*`Get-AdUser -Identity username -Properties PrimaryGroupID, PrimaryGroup`*
+
+**Get a user’s Group Memberships:**
+
+*`Get-ADPrincipalGroupMembership -Identity username`*
+
+**Get user's primary group:**
+
+*`Get-ADGroup -Identity (Get-AdUser -Identity username -Properties PrimaryGroup).PrimaryGroup`*
