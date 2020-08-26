@@ -9,3 +9,6 @@ Query on Hyper-V
 
 ## IP Configuration
 Query on the IP configuration
+
+## Printers
+Query on printers
