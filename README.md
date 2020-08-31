@@ -28,6 +28,9 @@ PowerShell miscellaneous queries
 ## Remove-UserProfile
 Delete user profiles on local or remote computer that match the search criteria
 
+## Send-MPReportMail
+Send mail message if Windows Defender has detected malware threats or is not update or if the services are not active
+
 ## Send-DriveReportMail
 Send mail message with a report with info on size and free space of a drive
 
