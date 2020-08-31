@@ -29,7 +29,7 @@ Param(
   [string]$SmtpServer,
   [Parameter(Mandatory=$True)]
   [string]$To,
-  [uint32]$AlertOnSignatureNotUpdateFromDays=0,
+  [uint32]$AlertOnSignatureNotUpdateFromDays=2,
   [uint32]$AlertOnThreatDetectionLastDays=30
 )
 
