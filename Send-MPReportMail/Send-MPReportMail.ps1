@@ -6,19 +6,24 @@
 .PARAMETER From
    Specifies the address from which the mail is sent. Enter a name (optional) and email address, such as Name <someone@example.com>. This parameter is required.
 .PARAMETER SmtpServer
-   Specifies the name of the SMTP server that sends the email message.
-   The default value is the value of the $PSEmailServer preference variable. If the preference variable is not set and this parameter is omitted, the command fails.
+   Specifies the name of the SMTP server that sends the email message. This parameter is required.
 .PARAMETER Subject
    Specifies the subject of the email message. This parameter is required.
 .PARAMETER To
    Specifies the addresses to which the mail is sent. Enter names (optional) and the email address, such as Name <someone@example.com>. This parameter is required.
+.PARAMETER SendMailAsAnonymous
+   Specifies that the email will be sent with the credentials of a fictitious user anonymous.
+.PARAMETER AlertOnSignatureNotUpdateFromDays
+   Specifies after how many days if the antivirus signatures are out of date the report will be sent.
+.PARAMETER AlertOnThreatDetectionLastDays
+   Specifies how many days will be considered when searching for detected threads to send the report.
 .EXAMPLE
    ./Send-MPThreatDetectionMail.ps1 -From %COMPUTERNAME%@contoso.com -SmtpServer mail.contoso.com -To malware.alert@contoso.com
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    28/08/2020 
-   Version: 1.0
+   Date:    01/09/2020 
+   Version: 1.1
 .LINK  
 #>
 
@@ -29,6 +34,7 @@ Param(
   [string]$SmtpServer,
   [Parameter(Mandatory=$True)]
   [string]$To,
+  [switch]$SendMailAsAnonymous=$False,
   [uint32]$AlertOnSignatureNotUpdateFromDays=2,
   [uint32]$AlertOnThreatDetectionLastDays=30
 )
@@ -159,7 +165,15 @@ If ($sendmail -eq $True) {
   $mailBody = "<pre>" + $reportHtmlBody + "</pre>"
 
   Try {
-    Send-MailMessage -To $To -From $From -SmtpServer $SmtpServer -Subject $mailSubject -Body $mailBody -BodyAsHtml
+    If ($SendMailAsAnonymous -eq $True){
+      $anonymousUser = "anonymous"
+      $anonymousPassword = ConvertTo-SecureString $anonymousUser -AsPlainText -Force
+      $anonymousCredential = New-Object System.Management.Automation.PSCredential($anonymousUser, $anonymousPassword)
+      Send-MailMessage -To $To -From $From -SmtpServer $SmtpServer -Subject $mailSubject -Body $mailBody -BodyAsHtml -Credential $anonymousCredential
+    }
+    Else{
+      Send-MailMessage -To $To -From $From -SmtpServer $SmtpServer -Subject $mailSubject -Body $mailBody -BodyAsHtml
+    }
     Write-Host ("`n" + "Send report on mail " + $To + " successful.")
   }
   Catch {
