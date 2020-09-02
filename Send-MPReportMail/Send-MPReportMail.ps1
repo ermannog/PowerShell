@@ -23,7 +23,7 @@
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
    Date:    01/09/2020 
-   Version: 1.1
+   Version: 1.2
 .LINK  
 #>
 
@@ -46,6 +46,23 @@ $sendmail=$False
 $padRightChars = 35
 $reportHtmlBodyCheckText=""
 $mailSubject = "Windows Defender Report from " +  $Env:ComputerName
+
+
+Enum ThreatStatusIDValues
+{
+ Unknown = 0
+ Detected = 1
+ Cleaned = 2
+ Quarantined = 3
+ Removed = 4
+ Allowed = 5
+ BlockedCleanFailed = 6
+ QuarantineFailed = 102
+ RemoveFailed = 103
+ AllowFailed = 104
+ Abondoned = 105
+ BlockedFailed = 107
+}
 
 # OS info
 $osInfo = Get-CimInstance -Class CIM_OperatingSystem
@@ -133,7 +150,7 @@ $reportHtmlBody += "</p>"
 $threatsDetection = Get-MpThreatDetection | Where-Object { $_.InitialDetectionTime -ge (Get-Date).AddDays(-$AlertOnThreatDetectionLastDays) }
 $threatsCount = ($threatsDetection | Measure-Object).Count
 
-# Threats info - Check thread last days
+# Threats info - Check threat last days
 $reportHtmlBodyCheckText = ("Threats found in the last " + $AlertOnThreatDetectionLastDays + " days:").PadRight($PadRightChars) + $threatsCount + "<br>"
 If ($threatsCount -ne 0){
   $reportHtmlBody += "<font color ='red'><b>" + $reportHtmlBodyCheckText + "</b></font>"
@@ -152,6 +169,7 @@ ForEach ($threat In $threatsDetection)
   $reportHtmlBody += ("Thread Name:").PadRight($PadRightChars) + (Get-MpThreat -ThreatID $threat.ThreatID).ThreatName + "<br>"
   $reportHtmlBody += ("Thread Domain User:").PadRight($PadRightChars) + $threat.DomainUser + "<br>"
   $reportHtmlBody += ("Thread Process Name:").PadRight($PadRightChars) + $threat.ProcessName + "<br>"
+  $reportHtmlBody += ("Thread Status:").PadRight($PadRightChars) + [System.Enum]::GetName([ThreatStatusIDValues], $threat.ThreatStatusID) + "<br>"
   ForEach($resource in $threat.Resources)
   {
     $reportHtmlBody += ("Thread Resource:").PadRight($PadRightChars) + $resource + "<br>"
