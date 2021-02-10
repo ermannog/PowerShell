@@ -4,6 +4,9 @@ PowerShell miscellaneous queries
 ## Active Directory
 Query on Active Directory
 
+## Disks
+Query on disks
+
 ## Hyper-V
 Query on Hyper-V
 
