@@ -16,6 +16,8 @@
 
 *`Get-ADUser -filter * -Properties Name, PasswordLastSet, PasswordNeverExpires | Where { $_.PasswordNeverExpires -eq $True } | Where {$_.Enabled -eq $True} | Format-Table Name, PasswordLastSet`*
 
+*`Get-ADUser -filter * -Properties Name, PasswordLastSet, PasswordNeverExpires, LastLogonDate | Where { $_.PasswordNeverExpires -eq $True } | Where {$_.Enabled -eq $True} | SELECT Name, PasswordLastSet, LastLogonDate,  @{Name="DistinguishedName"; Expression={$_.DistinguishedName.SubString($_.DistinguishedName.IndexOf("OU"))}} | Sort DistinguishedName, LastLogonDate -Descending`*
+
 **Check if a user's password has expired:**
 
 *`(Get-ADUser username –Properties "msDS-UserPasswordExpiryTimeComputed" | Select @{Name="ExpiryDate";Expression={[datetime]::FromFileTime($_."msDS-UserPasswordExpiryTimeComputed")}}).ExpiryDate -lt (Get-Date)`*
