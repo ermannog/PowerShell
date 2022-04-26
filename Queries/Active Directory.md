@@ -33,3 +33,7 @@
 **Get user's primary group:**
 
 *`Get-ADGroup -Identity (Get-AdUser -Identity username -Properties PrimaryGroup).PrimaryGroup`*
+
+**Count of members of groups starting with prefix:**
+
+*`Get-ADGroup -Filter {Name -Like 'Prefix*'} -Properties Member | Select-Object Name,@{n="MemberCount";e={$_.Member.Count}}`*
