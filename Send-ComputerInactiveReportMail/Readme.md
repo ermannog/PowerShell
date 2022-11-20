@@ -8,7 +8,7 @@ This script send an email with the list of inactive computers.
 
 Specifies the number of days until the computer is inactive. This parameter is optional, the default value is 180.
 
-**ExcudePasswordNeverExpires**
+**ExcludePasswordNeverExpires**
 
 Specifies to excludes computers with the PasswordNeverExpiresproperty set to True. This parameter is optional, the default value is True.
 
