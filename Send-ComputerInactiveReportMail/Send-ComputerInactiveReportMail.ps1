@@ -41,10 +41,10 @@ Set-StrictMode -Version Latest
 $encodingUTF8  = New-Object System.Text.utf8encoding
 
 # Creation subject mail
-$mailSubject = "Report account compuyter inattivi da " + $DaysUntilComputerInactive + " giorni"
+$mailSubject = "Inactive computer accounts report from " + $DaysUntilComputerInactive + " days"
 
 # Creation of the report body
-$mailBody = "<p><b>Riepilogo</b></p>"
+$mailBody = "<p><b>Summary</b></p>"
 
 # Search for computers that never logon from long time
 # $ComputersInactive = Get-ADComputer -Filter {Enabled -eq $True} -Properties "Name", "OperatingSystem", "lastLogonTimestamp", "whenCreated", "PasswordExpired", "PasswordLastSet", | Select-Object -Property "Name", "OperatingSystem", "whenCreated", "PasswordExpired", @{Name="LastLogonDate";Expression={[DateTime]::FromFileTime($_."lastLogonTimestamp")}} | Where-Object {$_.LastLogonDate -le (Get-Date).AddDays(-$DaysUntilComputerInactive)}
@@ -58,18 +58,18 @@ $ComputersInactive = $ComputersInactive | Sort-Object -Property @{Expression = "
 
 # Creation of the report body
 $mailBody += "<p>"
-$mailBody += "<b>" + ($ComputersInactive | Measure-Object).Count + " Computers inattivi:</b>"
+$mailBody += "<b>" + ($ComputersInactive | Measure-Object).Count + " Inactive computer accounts:</b>"
 
 If ($ComputersInactive -ne 0) {
   ForEach ($computer in $ComputersInactive) {
     $mailBody += "<br>"
     $mailBody += "- Computer <b>" + $computer.Name  + "</b> ("
-    $mailBody += "Ultimo logon: " + (Get-Date -date $computer.LastLogonDate).Date.ToLongDateString() + " - "
+    $mailBody += "Last logon: " + (Get-Date -date $computer.LastLogonDate).Date.ToLongDateString() + " - "
     $mailBody += "OS: " + $computer.OperatingSystem + " - "
-    $mailBody += "Data creazione: " + (Get-Date -date $computer.whenCreated).Date.ToLongDateString() + " - "
-    $mailBody += "PasswordExpired " + $computer.PasswordExpired + " - "
-    $mailBody += "PasswordLastSet " + $computer.PasswordLastSet + " - "
-    $mailBody += "PasswordNeverExpires " + $computer.PasswordNeverExpires + ")"
+    $mailBody += "Creation date: " + (Get-Date -date $computer.whenCreated).Date.ToLongDateString() + " - "
+    $mailBody += "Password expired date " + $computer.PasswordExpired + " - "
+    $mailBody += "Password last set date " + $computer.PasswordLastSet + " - "
+    $mailBody += "Password never expires flag " + $computer.PasswordNeverExpires + ")"
   }
 }
 $mailBody += "</p>"
@@ -84,9 +84,9 @@ $ComputersInactive | Export-CSV -NoTypeInformation $ComputersInactiveCSVFile
 # Send mail to report mail
 Try {
   Send-MailMessage -To $MailTo -Subject $mailSubject -From $MailFrom  -Body $mailBody -BodyAsHtml -SmtpServer $smtpServer -Encoding $encodingUTF8 -Attachments $ComputersInactiveCSVFile
-  Write-Host ("`n" + "Invio mail report computer inattivi a " + $MailTo + " eseguito.")
+  Write-Host ("`n" + "Inactive computer report mailing to " + $MailTo + " sent successfully.")
 }
 Catch {
-  Write-Host ("`n" + "Invio mail report computer inattivi a " + $MailTo + " fallito.")
+  Write-Host ("`n" + "Inactive computer report mailing to " + $MailTo + " sending failed.")
   Write-Output $_
 }
