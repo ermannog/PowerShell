@@ -7,14 +7,14 @@
    Specifies the number of days until the computer is inactive. This parameter is optional, the default value is 180.
 .PARAMETER ExcludePasswordNeverExpires
    Specifies to excludes computers with the PasswordNeverExpiresproperty set to True. This parameter is optional, the default value is True.
-.PARAMETER From
+.PARAMETER MailFrom
    Specifies the address from which the mail is sent. Enter a name (optional) and email address, such as Name <someone@example.com>. This parameter is required.
-.PARAMETER To
+.PARAMETER MailTo
    Specifies the addresses to which the mail is sent. Enter names (optional) and the email address, such as Name <someone@example.com>. This parameter is required.
 .PARAMETER SmtpServer
    Specifies the name of the SMTP server that sends the email message. This parameter is required.
 .EXAMPLE
-   ./Send-ComputerInactiveReportMail.ps1 -From %COMPUTERNAME%@contoso.com -To reports@contoso.com -SmtpServer mail.contoso.com
+   ./Send-ComputerInactiveReportMail.ps1 -MailFrom %COMPUTERNAME%@contoso.com -MailTo reports@contoso.com -SmtpServer mail.contoso.com
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
