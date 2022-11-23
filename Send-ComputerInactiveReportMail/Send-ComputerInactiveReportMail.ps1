@@ -14,7 +14,7 @@
 .PARAMETER SmtpServer
    Specifies the name of the SMTP server that sends the email message. This parameter is required.
 .EXAMPLE
-   ./Send-PasswordExpireMail.ps1 -From %COMPUTERNAME%@contoso.com -To reports@contoso.com -SmtpServer mail.contoso.com
+   ./Send-ComputerInactiveReportMail.ps1 -From %COMPUTERNAME%@contoso.com -To reports@contoso.com -SmtpServer mail.contoso.com
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
