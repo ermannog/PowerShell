@@ -47,7 +47,6 @@ $mailSubject = "Inactive computer accounts report from " + $DaysUntilComputerIna
 $mailBody = "<p><b>Summary</b></p>"
 
 # Search for computers that never logon from long time
-# $ComputersInactive = Get-ADComputer -Filter {Enabled -eq $True} -Properties "Name", "OperatingSystem", "lastLogonTimestamp", "whenCreated", "PasswordExpired", "PasswordLastSet", | Select-Object -Property "Name", "OperatingSystem", "whenCreated", "PasswordExpired", @{Name="LastLogonDate";Expression={[DateTime]::FromFileTime($_."lastLogonTimestamp")}} | Where-Object {$_.LastLogonDate -le (Get-Date).AddDays(-$DaysUntilComputerInactive)}
 $ComputersInactive = Get-ADComputer -Filter {Enabled -eq $True} -Properties "Name", "OperatingSystem", "lastLogonTimestamp", "whenCreated", "PasswordExpired", "PasswordLastSet", "PasswordNeverExpires"
 $ComputersInactive = $ComputersInactive | Select-Object -Property "Name", "OperatingSystem", "whenCreated", "PasswordExpired", "PasswordLastSet", "PasswordNeverExpires", @{Name="LastLogonDate";Expression={[DateTime]::FromFileTime($_."lastLogonTimestamp")}}
 $ComputersInactive = $ComputersInactive | Where-Object {$_.LastLogonDate -le (Get-Date).AddDays(-$DaysUntilComputerInactive) -or $_.PasswordExpired -eq $True}
