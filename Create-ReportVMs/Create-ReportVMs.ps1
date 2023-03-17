@@ -52,6 +52,7 @@ Try {
                                       @{Name="Name"; Expression={$_.VMName}}, `
                                       @{Name="vCPU"; Expression={$_.ProcessorCount}}, `
                                       @{Name="RAM"; Expression={($_.MemoryStartup/1GB).ToString() + " GB"}; Align="Right"}, `
+                                      @{Name="State"; Expression={$_.State}; Align="Center"}, `
                                       @{Name="Start Delay"; Expression={($_.AutomaticStartDelay).ToString() + " Sec"}; Align="Right"}, `
                                       @{Name="Stop Action"; Expression={$_.AutomaticStopAction}; Align="Center"}, `
                                       Notes,  `
