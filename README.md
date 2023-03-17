@@ -10,6 +10,9 @@ Script that performs the following steps:
 - Export certificate on PFX file with entire chain and all external properties 
 - Export public key on CER file
 
+## Create-ReportVMs
+Create a report of VMs running on Hyper-V Host
+
 ## Execute-WindowsUpdate
 Script that execute Windows Update on local computer
 
