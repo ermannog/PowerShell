@@ -16,7 +16,7 @@ Switch to generate a PDF/A compliant file (Default value is False).
 **Log**
 Switch to generate a log file (Default value is False).
 
-#Examples
+# Examples
 **EXAMPLE 1:**  *Convert the Test.docx file to PDF by generating the file Test.pdf*
 
 ./Convert-WordDocumentToPDF.ps1 -InputFile '".\Test.docx"' -OutputFile '".\Test.pdf"' 
