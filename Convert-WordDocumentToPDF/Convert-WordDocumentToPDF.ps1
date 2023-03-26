@@ -61,7 +61,7 @@ Try {
     Write-Host $Message  -ForegroundColor Yellow
     If ($Log) {(Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $LogFilePath -Append}
 
-    $Document = $Word.Documents.Open($InputFile)
+    $Document = $Word.Documents.Open($InputFile, $False, $True)
 
     # Conver input file
     $Message = "Start converting to PDF on file $OutputFile ..."
