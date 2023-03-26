@@ -68,17 +68,12 @@ Try {
     Write-Host $Message  -ForegroundColor Yellow
     If ($Log) {(Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $LogFilePath -Append}
 
-    If ($PDFACompliant -eq $False) {
-        $Document.SaveAs2($OutputFile, [Microsoft.Office.Interop.Word.WdExportFormat]::wdExportFormatPDF)
-    }
-    Else {
-        $Document.ExportAsFixedFormat($OutputFile, [Microsoft.Office.Interop.Word.WdExportFormat]::wdExportFormatPDF, `
-                                 $False, [Microsoft.Office.Interop.Word.WdExportOptimizeFor]::wdExportOptimizeForPrint, `
-                                 [Microsoft.Office.Interop.Word.WdExportRange]::wdExportAllDocument, 0, 0,  `
-                                 [Microsoft.Office.Interop.Word.WdExportItem]::wdExportDocumentContent, `
-                                 $True, $True, [Microsoft.Office.Interop.Word.WdExportCreateBookmarks]::wdExportCreateNoBookmarks, `
-                                 $True, $True, $True)
-    }
+    $Document.ExportAsFixedFormat($OutputFile, [Microsoft.Office.Interop.Word.WdExportFormat]::wdExportFormatPDF, `
+                                  $False, [Microsoft.Office.Interop.Word.WdExportOptimizeFor]::wdExportOptimizeForPrint, `
+                                  [Microsoft.Office.Interop.Word.WdExportRange]::wdExportAllDocument, 0, 0,  `
+                                  [Microsoft.Office.Interop.Word.WdExportItem]::wdExportDocumentContent, `
+                                  $True, $True, [Microsoft.Office.Interop.Word.WdExportCreateBookmarks]::wdExportCreateNoBookmarks, `
+                                  $True, $True, $PDFACompliant)
 
     $Message = "The $OutputFile file has been generated."
     Write-Host $Message  -ForegroundColor Green
