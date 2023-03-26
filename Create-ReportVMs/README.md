@@ -12,3 +12,9 @@ The VMs that are taken into consideration are those that are set "potentially" t
 **OutputFile**
 
 Path of Report file.
+
+# Examples
+
+**EXAMPLE 1:**  *Create a report of the VMs on all users desktop named "Report VMs.txt"*
+
+./Create-ReportVMs.ps1 -OutputFile '"%PUBLIC%\Desktop\Report VMs.txt"'
