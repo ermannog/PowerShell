@@ -3,7 +3,7 @@ Convert a Word file to PDF, requires Microsoft Word to be installed on computer.
 
 **Version: 1.0 - Date: 03/26/2023**
 
-# Description
+# Parameters
 **InputFile**
 Path of the Word file to convert to PDF.
 
