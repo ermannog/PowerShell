@@ -1,5 +1,6 @@
 # Description
 Convert a Word file to PDF, requires Microsoft Word to be installed on computer.
+The script opens the Word file in read-only mode.
 
 **Version: 1.0 - Date: 03/26/2023**
 
