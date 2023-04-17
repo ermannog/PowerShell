@@ -41,3 +41,7 @@
 **List of enabled users who are members of groups whose name starts with a prefix**
 
 *`Get-ADUser -Filter {Enabled -eq $True} -Properties MemberOf | Where-Object {$_.MemberOf -Like ("CN=Prefix*")}`*
+
+**List of enabled users who are not members of groups whose name starts with a prefix**
+
+*`Get-ADUser -Filter {Enabled -eq $True} -Properties MemberOf | Where-Object {[string]$_.MemberOf -NotLike ("CN=Prefix*")}`*
