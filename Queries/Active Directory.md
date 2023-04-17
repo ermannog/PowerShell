@@ -40,4 +40,4 @@
 
 **List of users who are not members of groups whose name begins with a prefix:**
 
-*`Get-ADUser -Filter * -Properties MemberOf | Where-Object {$_.MemberOf -notlike ("CN=Prefix1-*") -And $_.MemberOf -notlike ("CN=Prefix2-*") -And $_.MemberOf -notlike ("CN=Prefix3-*")} | Select Name, SamAccountName`*
+*`Get-ADUser -Filter * -Properties MemberOf | Where-Object {$_.MemberOf -notlike ("CN=Prefix1-*")} | Select Name, SamAccountName`*
