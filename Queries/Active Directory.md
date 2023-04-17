@@ -37,3 +37,7 @@
 **Count of members of groups starting with prefix:**
 
 *`Get-ADGroup -Filter {Name -Like 'Prefix*'} -Properties Member | Select-Object Name,@{n="MemberCount";e={$_.Member.Count}}`*
+
+**List of enabled users who are members of groups whose name starts with a prefix**
+
+*`Get-ADUser -Filter {Enabled -eq $True} -Properties MemberOf | Where-Object {$_.MemberOf -Like ("CN=Prefix*")}`*
