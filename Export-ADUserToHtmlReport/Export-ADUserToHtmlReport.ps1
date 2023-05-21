@@ -24,8 +24,8 @@ By default is False.
 
 .NOTES
    Author:  Ermanno Goletto
-   Date:    20/05/2023
-   Version: 1.3 
+   Date:    21/05/2023
+   Version: 1.4 
 .LINK  
 #>
 
@@ -184,7 +184,6 @@ Try {
                                                   '<b>Proteggi oggetto da eliminazioni accidentali</b>' = ($ADUser | Get-ADObject -Property ProtectedFromAccidentalDeletion).ProtectedFromAccidentalDeletion
                                                   '<b>Ultimo logon</b>' = $ADUser.LastLogonDate
                                                   '<b>Ultima modifica password</b>' = $ADUser.PasswordLastSet
-                                                  '<b>Numero logon</b>' = $ADUser.logonCount
                                                   '<b>Ultimo logon con password non valida</b>' = $ADUser.LastBadPasswordAttempt
                                                   '<b>SID</b>' = $ADUser.objectSid}) | Out-Null
   
