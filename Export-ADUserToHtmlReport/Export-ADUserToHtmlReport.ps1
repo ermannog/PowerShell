@@ -24,8 +24,8 @@ By default is False.
 
 .NOTES
    Author:  Ermanno Goletto
-   Date:    21/05/2023
-   Version: 1.4 
+   Date:    29/05/2023
+   Version: 1.5 
 .LINK  
 #>
 
@@ -83,7 +83,7 @@ Try {
   Write-Host "Ricerca utente $UserId ..." -ForegroundColor Blue
 
   # Esecuzione query utenti in Active Directory
-  $ADUser = Get-ADUser $UserId -Properties *, msDS-PrincipalName, msDS-SupportedEncryptionTypes
+  $ADUser = Get-ADUser $UserId -Properties *, msDS-PrincipalName, msDS-SupportedEncryptionTypes, msDS-UserPasswordExpiryTimeComputed
 
   Write-Host "Creazione report html ..." -ForegroundColor Blue
 
@@ -185,6 +185,7 @@ Try {
                                                   '<b>Ultimo logon</b>' = $ADUser.LastLogonDate
                                                   '<b>Ultima modifica password</b>' = $ADUser.PasswordLastSet
                                                   '<b>Ultimo logon con password non valida</b>' = $ADUser.LastBadPasswordAttempt
+                                                  '<b>Scadenza Password</b>' = [datetime]::FromFileTime($ADUser."msDS-UserPasswordExpiryTimeComputed")
                                                   '<b>SID</b>' = $ADUser.objectSid}) | Out-Null
   
   $ReportSezioneOggetto = $ReportSezioneOggettoList | ConvertTo-Html -As List -Fragment -PreContent "<h2>Oggetto</h2>"
