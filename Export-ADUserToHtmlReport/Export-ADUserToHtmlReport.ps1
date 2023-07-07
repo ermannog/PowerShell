@@ -24,8 +24,8 @@ By default is False.
 
 .NOTES
    Author:  Ermanno Goletto
-   Date:    29/05/2023
-   Version: 1.5 
+   Date:    07/07/2023
+   Version: 1.6 
 .LINK  
 #>
 
@@ -82,7 +82,7 @@ $Report = ""
 Try {
   Write-Host "Ricerca utente $UserId ..." -ForegroundColor Blue
 
-  # Esecuzione query utenti in Active Directory
+  # Esecuzione query utente in Active Directory
   $ADUser = Get-ADUser $UserId -Properties *, msDS-PrincipalName, msDS-SupportedEncryptionTypes, msDS-UserPasswordExpiryTimeComputed
 
   Write-Host "Creazione report html ..." -ForegroundColor Blue
@@ -197,7 +197,7 @@ Try {
   $PrimaryGroupMemberOf = ""
   If ($PrimaryGroup.MemberOf -ne $null) {$PrimaryGroupMemberOf = ($PrimaryGroup.MemberOf | Get-ADGroup).Name -Join ", "}
   
-  $ReportSezioneMemberOfList.Add([PSCustomObject]@{'Nome' = $PrimaryGroup.Name; 'Tipo' = 'Primary'; 'Categoria' = $PrimaryGroup.GroupCategory; 'Scope' = $PrimaryGroup.GroupScope; 'Descrizione' = $PrimaryGroup.Description; 'Membro di' = $PrimaryGroupMemberOf}) | Out-Null
+  $ReportSezioneMemberOfList.Add([PSCustomObject]@{'Nome' = $PrimaryGroup.Name; 'Tipo' = 'Primary'; 'Categoria' = $PrimaryGroup.GroupCategory; 'Ambito' = $PrimaryGroup.GroupScope; 'Descrizione' = $PrimaryGroup.Description; 'Membro di' = $PrimaryGroupMemberOf}) | Out-Null
 
   ForEach($member In ($ADUser.MemberOf | Sort)){
     $memberGroup = ($member) | Get-ADGroup -Property Description, MemberOf
@@ -205,7 +205,7 @@ Try {
     $memberGroupMemberOf = ""
     If ($memberGroup.MemberOf -ne $null) {$memberGroupMemberOf = ($memberGroup.MemberOf | Get-ADGroup).Name -Join ", "}
     
-    $ReportSezioneMemberOfList.Add([PSCustomObject]@{'Nome' = $memberGroup.Name; 'Tipo' = ''; 'Categoria' = $memberGroup.GroupCategory; 'Scope' = $memberGroup.GroupScope; 'Descrizione' = $memberGroup.Description; 'Membro di' = $memberGroupMemberOf}) | Out-Null
+    $ReportSezioneMemberOfList.Add([PSCustomObject]@{'Nome' = $memberGroup.Name; 'Tipo' = ''; 'Categoria' = $memberGroup.GroupCategory; 'Ambito' = $memberGroup.GroupScope; 'Descrizione' = $memberGroup.Description; 'Membro di' = $memberGroupMemberOf}) | Out-Null
   }
 
   $MembersIncludeNested = Get-ADGroup -LDAPFilter "(member:1.2.840.113556.1.4.1941:=$ADUser)" -Property Description
@@ -214,7 +214,7 @@ Try {
       $memberGroupMemberOf = ""
       If ($memberGroup.MemberOf -ne $null) {$memberGroupMemberOf = ($memberGroup.MemberOf | Get-ADGroup).Name -Join ", "}
 
-      $ReportSezioneMemberOfList.Add([PSCustomObject]@{'Nome' = $memberGroup.Name; 'Tipo' = 'Nested'; 'Categoria' = $memberGroup.GroupCategory; 'Scope' = $memberGroup.GroupScope; 'Descrizione' = $memberGroup.Description; 'Membro di' = $memberGroupMemberOf}) | Out-Null
+      $ReportSezioneMemberOfList.Add([PSCustomObject]@{'Nome' = $memberGroup.Name; 'Tipo' = 'Nested'; 'Categoria' = $memberGroup.GroupCategory; 'Ambito' = $memberGroup.GroupScope; 'Descrizione' = $memberGroup.Description; 'Membro di' = $memberGroupMemberOf}) | Out-Null
     }
   }
   
@@ -253,7 +253,7 @@ Try {
   Write-Host "Copia file css $PathFileCSSSource in $PathFileCSSDestination eseguita" -ForegroundColor Green
 
   # Apertura Report
-  If($OpenReport){Invoke-Expression $PathFileReport}
+  If($OpenReport){Invoke-Item $PathFileReport}
 }
 Catch{
   Write-Host "Errore: $PSItem.Exception.Message" -ForegroundColor Red
