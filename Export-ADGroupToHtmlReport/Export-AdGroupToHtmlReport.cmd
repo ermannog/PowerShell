@@ -1,7 +1,7 @@
 @ECHO OFF
 CLS
 REM SET GroupID=Tutti i Dipendenti
-SET GroupID=Utenti-Prova
+SET GroupID=TestUsers
 SET /p "GroupID=Nome gruppo (Invio <%GroupID%>): "
 SET Note=Modifica gruppo
 SET /p "Note=Annotazioni (Invio <%Note%>): "
