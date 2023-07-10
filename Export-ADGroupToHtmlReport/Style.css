@@ -1,0 +1,12 @@
+@media print {div.PageBreak-div {page-break-after: always;}}
+@media print {@page {size: A4; margin: 1cm;}}
+h1 {text-align: center;}
+h2 {background-color: black; color: white;}
+table.Member-table, td.Member-td, th.Member-th {border: 1px solid}
+td.Member-td, th.Member-th{padding: 5px;}
+th.Member-th {background-color: #D1D1D1;}
+table.Member-table {border-collapse: collapse;}
+table.MemberOf-table, td.MemberOf-td, th.MemberOf-th {border: 1px solid}
+td.MemberOf-td, th.MemberOf-th{padding: 5px;}
+th.MemberOf-th {background-color: #D1D1D1;}
+table.MemberOf-table {border-collapse: collapse;}
