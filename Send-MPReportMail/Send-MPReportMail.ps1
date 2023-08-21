@@ -22,8 +22,8 @@
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    02/09/2020 
-   Version: 1.2
+   Date:    21/08/2023 
+   Version: 1.3
 .LINK  
 #>
 
@@ -46,6 +46,7 @@ $sendmail=$False
 $padRightChars = 35
 $reportHtmlBodyCheckText=""
 $mailSubject = "Windows Defender Report from " +  $Env:ComputerName
+$ScriptVersion = ((((Get-Help -Full $PSCommandPath).alertSet.alert.Text) -Split '\r?\n').Trim() | Select-String -Pattern 'Version:').ToString().Replace("Version:","").Trim()
 
 
 Enum ThreatStatusIDValues
@@ -73,6 +74,7 @@ $reportHtmlBody += "<b>" + "Host name:".PadRight($PadRightChars) + $Env:Computer
 $reportHtmlBody += "Operating system:".PadRight($PadRightChars) + $osInfo.Caption + " " + $osInfo.OSArchitecture +"<br>"
 $reportHtmlBody += "Operating system version:".PadRight($PadRightChars) + $osVersion.CurrentMajorVersionNumber + "." + $osVersion.CurrentBuildNumber + "." + $osVersion.UBR + "<br>"
 $reportHtmlBody += "Last Boot Up Time:".PadRight($PadRightChars) + [string]$osInfo.LastBootUpTime + "<br>"
+$reportHtmlBody += "Script version:".PadRight($PadRightChars) + $ScriptVersion + "<br>"
 $reportHtmlBody += "</p>"
 
 
@@ -146,9 +148,10 @@ $reportHtmlBody += "Antivirus Signature Version:".PadRight(35) + $mpComputerStat
 $reportHtmlBody += "</p>"
 
 
-# Threats info
+# Threats info initializations
 $threatsDetection = Get-MpThreatDetection | Where-Object { $_.InitialDetectionTime -ge (Get-Date).AddDays(-$AlertOnThreatDetectionLastDays) }
 $threatsCount = ($threatsDetection | Measure-Object).Count
+$reportHtmlBody += "<p>"
 
 # Threats info - Check threat last days
 $reportHtmlBodyCheckText = ("Threats found in the last " + $AlertOnThreatDetectionLastDays + " days:").PadRight($PadRightChars) + $threatsCount + "<br>"
@@ -178,6 +181,34 @@ ForEach ($threat In $threatsDetection)
   $reportHtmlBody += "</p>"
 }
 
+# Attempts by untrusted apps to write in Controlled folders info initializations
+$event1123Logs = Get-WinEvent -LogName "Microsoft-Windows-Windows Defender/Operational" | Where-Object { $_.Id -eq 1123 -and $_.TimeCreated -ge (Get-Date).AddDays(-$AlertOnThreatDetectionLastDays)}
+$event1123LogsCount = ($event1123Logs | Measure-Object).Count
+$reportHtmlBody += "<p>"
+
+# Attempts by untrusted apps to write in Controlled folders info info - Check threat last days
+$reportHtmlBodyCheckText = "Attempts by untrusted apps to write in Controlled folders found in the last " + $AlertOnThreatDetectionLastDays + " days: " + $event1123LogsCount + "<br>"
+If ($event1123LogsCount -ne 0){
+  $reportHtmlBody += "<font color ='red'><b>" + $reportHtmlBodyCheckText + "</b></font>"
+  $sendmail=$True
+}
+Else {
+  $reportHtmlBody += $reportHtmlBodyCheckText
+}
+$reportHtmlBody += "</p>"
+
+# Attempts by untrusted apps to write in Controlled folders info list
+ForEach ($event1123Log In $event1123Logs)
+{
+  $reportHtmlBody += "<p>"
+  $reportHtmlBody += ("Attempt Detection Time:").PadRight($PadRightChars) + $event1123Log.TimeCreated + "<br>"
+  $reportHtmlBody += ("Attempt User:").PadRight($PadRightChars) + $event1123Log.properties[5].value + "<br>"
+  $reportHtmlBody += ("Attempt Process Name:").PadRight($PadRightChars) + $event1123Log.properties[7].value + "<br>"
+  $reportHtmlBody += ("Attempt Path:").PadRight($PadRightChars) + $event1123Log.properties[6].value + "<br>"
+
+  $reportHtmlBody += "</p>"
+}
+
 # Send Mail
 If ($sendmail -eq $True) {
   $mailBody = "<pre>" + $reportHtmlBody + "</pre>"
@@ -192,7 +223,7 @@ If ($sendmail -eq $True) {
     Else{
       Send-MailMessage -To $To -From $From -SmtpServer $SmtpServer -Subject $mailSubject -Body $mailBody -BodyAsHtml
     }
-    Write-Host ("`n" + "Send report on mail " + $To + " successful.")
+    Write-Host ("`n" + "Send report on mail " + $To + " successfull.")
   }
   Catch {
     Write-Host ("`n" + "Invio report sulla mail " + $To + " failed.")
