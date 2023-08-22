@@ -12,18 +12,20 @@
 .PARAMETER To
    Specifies the addresses to which the mail is sent. Enter names (optional) and the email address, such as Name <someone@example.com>. This parameter is required.
 .PARAMETER SendMailAsAnonymous
-   Specifies that the email will be sent with the credentials of a fictitious user anonymous.
+   Specifies that the email will be sent with the credentials of a fictitious user anonymous. This parameter is optional (the default value is False).
 .PARAMETER AlertOnSignatureNotUpdateFromDays
-   Specifies after how many days if the antivirus signatures are out of date the report will be sent.
+   Specifies after how many days if the antivirus signatures are out of date the report will be sent. This parameter is optional (the default value is 2).
 .PARAMETER AlertOnThreatDetectionLastDays
-   Specifies how many days will be considered when searching for detected threads to send the report.
+   Specifies how many days will be considered when searching for detected threads to send the report. This parameter is optional (the default value is 30).
+.PARAMETER AlertOnAttemptsUntrustedAppsWriteDetectionLastDays
+   Specifies how many days will be considered when searching for detected Attempts by untrusted apps to write in Controlled folders to send the report. This parameter is optional (the default value is 7).
 .EXAMPLE
    ./Send-MPThreatDetectionMail.ps1 -From %COMPUTERNAME%@contoso.com -SmtpServer mail.contoso.com -To malware.alert@contoso.com
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    21/08/2023 
-   Version: 1.3
+   Date:    22/08/2023 
+   Version: 1.4
 .LINK  
 #>
 
@@ -36,7 +38,8 @@ Param(
   [string]$To,
   [switch]$SendMailAsAnonymous=$False,
   [uint32]$AlertOnSignatureNotUpdateFromDays=2,
-  [uint32]$AlertOnThreatDetectionLastDays=30
+  [uint32]$AlertOnThreatDetectionLastDays=30,
+  [uint32]$AlertOnAttemptsUntrustedAppsWriteDetectionLastDays=7
 )
 
 Set-StrictMode -Version Latest
@@ -182,12 +185,12 @@ ForEach ($threat In $threatsDetection)
 }
 
 # Attempts by untrusted apps to write in Controlled folders info initializations
-$event1123Logs = Get-WinEvent -LogName "Microsoft-Windows-Windows Defender/Operational" | Where-Object { $_.Id -eq 1123 -and $_.TimeCreated -ge (Get-Date).AddDays(-$AlertOnThreatDetectionLastDays)}
+$event1123Logs = Get-WinEvent -LogName "Microsoft-Windows-Windows Defender/Operational" | Where-Object { $_.Id -eq 1123 -and $_.TimeCreated -ge (Get-Date).AddDays(-$AlertOnAttemptsUntrustedAppsWriteDetectionLastDays)}
 $event1123LogsCount = ($event1123Logs | Measure-Object).Count
 $reportHtmlBody += "<p>"
 
 # Attempts by untrusted apps to write in Controlled folders info info - Check threat last days
-$reportHtmlBodyCheckText = "Attempts by untrusted apps to write in Controlled folders found in the last " + $AlertOnThreatDetectionLastDays + " days: " + $event1123LogsCount + "<br>"
+$reportHtmlBodyCheckText = "Attempts by untrusted apps to write in Controlled folders found in the last " + $AlertOnAttemptsUntrustedAppsWriteDetectionLastDays + " days: " + $event1123LogsCount + "<br>"
 If ($event1123LogsCount -ne 0){
   $reportHtmlBody += "<font color ='red'><b>" + $reportHtmlBodyCheckText + "</b></font>"
   $sendmail=$True
