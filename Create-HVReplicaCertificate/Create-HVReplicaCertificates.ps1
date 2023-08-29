@@ -14,23 +14,24 @@ If (-Not (Test-Path $certFolder)) { New-Item -Path $certFolder -ItemType Directo
 $certRootCA = Get-ChildItem -path Cert:\CurrentUser\My | Where {$_.FriendlyName -eq $rootCAName}
 
 If ($certRootCA -ne $null) {
-  Write-Host "Certificato Root CA esistente"
+  Write-Host "Rimozione certificato per Root CA esistente"
+  $certRootCA | Remove-Item
 } 
-Else {
-  ## Creazione certificato Root CA nello store Personale del certificati dell'utente corrente
-  $certRootCA = New-SelfSignedCertificate `
-                  -Subject $rootCAName  `
-                  -FriendlyName $rootCAName `
-                  -KeyExportPolicy Exportable  `
-                  -KeyUsage CertSign  `
-                  -KeyLength $certKeyLength  `
-                  -KeyUsageProperty All  `
-                  -KeyAlgorithm 'RSA'  `
-                  -HashAlgorithm 'SHA256'  `
-                  -Provider "Microsoft Enhanced RSA and AES Cryptographic Provider"  `
-                  -NotAfter (Get-Date).AddYears(20) `
-                  -CertStoreLocation Cert:\CurrentUser\My
-}
+
+
+## Creazione certificato Root CA nello store Personale del certificati dell'utente corrente
+$certRootCA = New-SelfSignedCertificate `
+                -Subject $rootCAName  `
+                -FriendlyName $rootCAName `
+                -KeyExportPolicy Exportable  `
+                -KeyUsage CertSign  `
+                -KeyLength $certKeyLength  `
+                -KeyUsageProperty All  `
+                -KeyAlgorithm 'RSA'  `
+                -HashAlgorithm 'SHA256'  `
+                -Provider "Microsoft Enhanced RSA and AES Cryptographic Provider"  `
+                -NotAfter (Get-Date).AddYears(20) `
+                -CertStoreLocation Cert:\CurrentUser\My
 
 
 ## Export del certificato Root CA
