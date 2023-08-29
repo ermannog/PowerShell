@@ -1,3 +1,5 @@
+Set-strictmode -version latest
+
 # Impostazioni Variabili
 $rootCAName = "Root CA Hyper-V Replica"
 $certSrvHVPrimaryName = "srvhv01.contoso.com"
