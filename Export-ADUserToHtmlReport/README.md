@@ -1,7 +1,7 @@
 # Description
 Export AD User in Html, the script must be run under the credentials of a domain user.
 
-**Version: 1.6 - Date: 07/07/2023**
+**Version: 1.7 - Date: 06/09/2023**
 
 # Parameters
 
