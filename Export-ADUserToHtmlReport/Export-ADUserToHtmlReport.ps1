@@ -24,8 +24,8 @@ By default is False.
 
 .NOTES
    Author:  Ermanno Goletto
-   Date:    07/07/2023
-   Version: 1.6 
+   Date:    06/09/2023
+   Version: 1.7 
 .LINK  
 #>
 
@@ -175,6 +175,9 @@ Try {
   $ReportSezioneIndirizzo = $ReportSezioneIndirizzoList | ConvertTo-Html -As List -Fragment -PreContent "<h2>Indirizzo</h2>"
 
   # Sezione Oggetto Body Report
+  $UserPasswordExpiryTimeComputed = "Mai"
+  If($ADUser."msDS-UserPasswordExpiryTimeComputed" -ne 0 -And $ADUser."msDS-UserPasswordExpiryTimeComputed" -ne [Int64]::MaxValue){$UserPasswordExpiryTimeComputed = ([datetime]::FromFileTime($ADUser."msDS-UserPasswordExpiryTimeComputed")).ToUniversalTime().ToString("dddd dd MMMM yyyy HH:mm:ss")}
+
   $ReportSezioneOggettoList.Add([PSCustomObject]@{'<b>Nome canonico dell''oggetto</b>' = $ADUser.canonicalName
                                                   '<b>Classe oggetto</b>' = $ADUser.objectClass -Join "; "
                                                   '<b>Data creazione</b>' = $ADUser.createTimeStamp
@@ -185,7 +188,7 @@ Try {
                                                   '<b>Ultimo logon</b>' = $ADUser.LastLogonDate
                                                   '<b>Ultima modifica password</b>' = $ADUser.PasswordLastSet
                                                   '<b>Ultimo logon con password non valida</b>' = $ADUser.LastBadPasswordAttempt
-                                                  '<b>Scadenza Password</b>' = [datetime]::FromFileTime($ADUser."msDS-UserPasswordExpiryTimeComputed")
+                                                  '<b>Scadenza Password</b>' = $UserPasswordExpiryTimeComputed
                                                   '<b>SID</b>' = $ADUser.objectSid}) | Out-Null
   
   $ReportSezioneOggetto = $ReportSezioneOggettoList | ConvertTo-Html -As List -Fragment -PreContent "<h2>Oggetto</h2>"
