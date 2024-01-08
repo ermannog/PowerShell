@@ -1,4 +1,4 @@
-# Variabili di utilit‡
+# Variabili di utilit√†
 $timeStamp = Get-Date -format "yyyy-MM-dd-HH-mm-ss" 
 
 # Impostazioni di configurazione
