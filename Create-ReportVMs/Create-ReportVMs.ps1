@@ -11,8 +11,8 @@
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    03/17/2023 
-   Version: 1.0 
+   Date:    03/26/2024 
+   Version: 1.1 
 .LINK
    https://github.com/ermannog/PowerShell/tree/master/Create-ReportVMs
 #>
@@ -23,8 +23,6 @@ Param(
 )
 
 Set-strictmode -version latest
-
-
 
 Try {
  #Clear Report File
@@ -45,39 +43,43 @@ Try {
 
  # Read VM with Automatic Startup
  $VMs = Get-VM | Where-Object AutomaticStartAction -ne Nothing
- $VMsTotalMemory = ($VMs | Measure-Object -Property MemoryStartup -Sum).Sum/1GB
- $VMsTotalvCPU = ($VMs | Measure-Object -Property ProcessorCount -Sum).Sum
- $VMsTable = $VMs |Sort-Object AutomaticStartDelay
- $VMsTable = $VMsTable | Format-Table -AutoSize -Wrap `
-                                      @{Name="Name"; Expression={$_.VMName}}, `
-                                      @{Name="vCPU"; Expression={$_.ProcessorCount}}, `
-                                      @{Name="RAM"; Expression={($_.MemoryStartup/1GB).ToString() + " GB"}; Align="Right"}, `
-                                      @{Name="State"; Expression={$_.State}; Align="Center"}, `
-                                      @{Name="Start Delay"; Expression={($_.AutomaticStartDelay).ToString() + " Sec"}; Align="Right"}, `
-                                      @{Name="Stop Action"; Expression={$_.AutomaticStopAction}; Align="Center"}, `
-                                      Notes,  `
-                                      @{Name="Dynamic Memory"; Expression={$_.DynamicMemoryEnabled}; Align="Center"}, `
-                                      Generation, `
-                                      @{Name="Version"; Expression={$_.Version}; Align="Right"}
-  $VMsTable = $VMsTable | Out-String -Width 256
+ 
+ If ($VMs -ne $null) {
+   $VMsTotalMemory = ($VMs | Measure-Object -Property MemoryStartup -Sum).Sum/1GB
+   $VMsTotalvCPU = ($VMs | Measure-Object -Property ProcessorCount -Sum).Sum
+   $VMsTable = $VMs |Sort-Object AutomaticStartDelay
+   $VMsTable = $VMsTable | Format-Table -AutoSize -Wrap `
+                                        @{Name="Name"; Expression={$_.VMName}}, `
+                                        @{Name="vCPU"; Expression={$_.ProcessorCount}}, `
+                                        @{Name="RAM"; Expression={($_.MemoryStartup/1GB).ToString() + " GB"}; Align="Right"}, `
+                                        @{Name="Start Delay"; Expression={($_.AutomaticStartDelay).ToString() + " Sec"}; Align="Right"}, `
+                                        @{Name="Stop Action"; Expression={$_.AutomaticStopAction}; Align="Center"}, `
+                                        Notes,  `
+                                        @{Name="Dynamic Memory"; Expression={$_.DynamicMemoryEnabled}; Align="Center"}, `
+                                        Generation, `
+                                        @{Name="Version"; Expression={$_.Version}; Align="Right"}
+    $VMsTable = $VMsTable | Out-String -Width 256
 
 
-  Write-Host "`r`n`r`nVMs with Automatic Startup:" -ForegroundColor Blue
-  Write-Host $VMsTable -ForegroundColor Blue
+    Write-Host "`r`n`r`nVMs with Automatic Startup:" -ForegroundColor Blue
+    Write-Host $VMsTable -ForegroundColor Blue
+  }
 
   # Create Report - Section Memory
   $ReportSectionMemory = "Host Memory:`t$HostMemory GB ($HostMemorySlots Slots)".PadRight(70)
-  $ReportSectionMemory += "VMs Total Memory:`t$VMsTotalMemory GB"
+  If ($VMs -ne $null) {$ReportSectionMemory += "VMs Total Memory:`t$VMsTotalMemory GB"}
   $ReportSectionMemory | Out-File $OutputFile -Append
 
   # Create Report - Section CPUs
   $ReportSectionCPUs = "Host CPU:`t$HostCPULogicalProcessors Logical Processors ($HostCPUSockets Sockets - $HostCPUCores Cores)".PadRight(67)
-  $ReportSectionCPUs += "VMs Total vCPU:`t$VMsTotalvCPU"
+  If ($VMs -ne $null) {$ReportSectionCPUs += "VMs Total vCPU:`t$VMsTotalvCPU"}
   $ReportSectionCPUs | Out-File $OutputFile -Append
 
   # Create Report - Section VMs
-  "`r`n`r`n`r`nVMs with Automatic Startup:" | Out-File $OutputFile -Append
-  $VMsTable | Out-File $OutputFile -Append
+  If ($VMs -ne $null) {
+    "`r`n`r`n`r`nVMs with Automatic Startup:" | Out-File $OutputFile -Append
+    $VMsTable | Out-File $OutputFile -Append
+  }
 
   # Create Report - Section Date
   "File created on: " + (Get-Date -Format f) | Out-File $OutputFile -Append
