@@ -68,7 +68,7 @@ Try {
     Write-Progress -PercentComplete ($i*100/$passwordsFileContents.Length) -Status "Processing password $password" -Activity "Password $i of $($passwordsFileContents.Length)"
 
     Try {
-      $document = $word.Documents.Open($DocumentFile, $null, $true, $null, $password)
+      $document = $word.Documents.Open($DocumentFile, $false, $true, $false, $password)
       Write-Host "Password found: $password" -ForegroundColor Yellow
       Exit 0
     }
