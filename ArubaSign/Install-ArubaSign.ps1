@@ -5,14 +5,13 @@ $ProductName = "ArubaSign"
 $SetupFileName = "ArubaSign-latest(standard).msi"
 $UrlSetup = "https://updatesfirma.aruba.it/downloads/ArubaSign-latest(standard).msi"
 $SetupArgs = "/qn /norestart"
-$LogFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Path) + ".log"
+$LogFileName = [System.IO.Path]::GetFileNameWithoutExtension($MyInvocation.MyCommand.Path) + "-" +$Env:UserName + ".log"
 
 # Impostazioni Variabili
 $PathFileSetup = Join-Path ($PSScriptRoot) ($SetupFileName)
 $PathFileLog = Join-Path ($PSScriptRoot) ($LogFileName)
 $Message = ""
 $DownloadSetup = $false
-
 
 Try {
 
