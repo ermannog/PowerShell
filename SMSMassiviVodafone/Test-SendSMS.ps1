@@ -1,7 +1,7 @@
 $userKey = "USER KEY"
 $accessToken = "ACCESS TOKEN"
 $recipient = "Numero del destinatario (in formato internazionale)"
-$sender = "Mittente (può essere il nome o un numero breve)"
+$sender = "Mittente (puÃ² essere il nome o un numero breve)"
 $message = "Messaggio di prova inviato tramite API SMS Massivi Vodafone."
 
 
@@ -19,8 +19,8 @@ $body = @{
     message_type = "L"                                   # SMS senza notifica
     message = $message                                   # Messaggio da inviare
     recipient = @($recipient)                            # Lista dei destinatari
-    sender = $sender                                     # Il mittente del messaggio (es. nome della tua azienda)
-    returnCredits = $true                       # Restituisce i crediti rimanenti
+    sender = $sender                                     # Mittente
+    returnCredits = $true                                # Restituisce i crediti rimanenti
 } | ConvertTo-Json
 
 
