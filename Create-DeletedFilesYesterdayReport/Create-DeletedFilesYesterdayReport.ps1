@@ -1,3 +1,17 @@
+<#
+.SYNOPSIS
+   Create a csv report of files deleted yesterday.
+.DESCRIPTION
+   Create a csv report of files deleted yesterday by analyzing the security event log to extract events with ID 4663 and AccessMask 65536.
+.NOTES
+   Author:  Ermanno Goletto
+   Blog:    www.devadmin.it
+   Date:    07/25/2025 
+   Version: 1.0 
+.LINK
+   https://github.com/ermannog/PowerShell/tree/master/Create-ReportVMs
+#>
+
 Set-strictmode -version latest
 
 # Impostazioni Costanti
@@ -21,7 +35,7 @@ Try {
   Write-Host $Message -ForegroundColor Blue
   (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog
 
-  $events = Get-WinEvent -FilterHashTable @{Logname=’Security’;ID=4663;StartTime=$Yesterday;EndTime=$Today} | Where {$_.Properties[9].Value -eq 65536}
+  $events = Get-WinEvent -FilterHashTable @{Logname=â€™Securityâ€™;ID=4663;StartTime=$Yesterday;EndTime=$Today} | Where {$_.Properties[9].Value -eq 65536}
   $events = $events | Select-Object -Property TimeCreated, @{Label='Account'; Expression={$_.Properties[1].Value}}, @{Label='Object'; Expression={$_.Properties[6].Value}}
 
   # Esporta i risultati in CSV
@@ -41,7 +55,7 @@ Try {
 
     # Eliminazione log file obsoleti
     $reportFileNameBase = Join-Path ($ReportFilePath) ($ReportFileNamePrefix)
-    $reportFiles = Get-ChildItem $ReportFilePath –PipelineVariable item | Where {$item.psIsContainer -eq $false -and $item.FullName -like ($reportFileNameBase + "*")} | Sort FullName
+    $reportFiles = Get-ChildItem $ReportFilePath â€“PipelineVariable item | Where {$item.psIsContainer -eq $false -and $item.FullName -like ($reportFileNameBase + "*")} | Sort FullName
     $reportFilesCount = ($reportFiles | Measure-Object).Count
 
     If ($reportFilesCount -gt $ReportFilesRetained){
