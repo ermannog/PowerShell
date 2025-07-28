@@ -10,7 +10,7 @@
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
-   Date:    07/25/2025 
+   Date:    07/28/2025 
    Version: 1.1 
 .LINK
    https://github.com/ermannog/PowerShell/tree/master/Create-ReportVMs
