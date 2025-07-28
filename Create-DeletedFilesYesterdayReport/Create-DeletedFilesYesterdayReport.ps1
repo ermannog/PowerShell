@@ -1,21 +1,28 @@
+#Requires -RunAsAdministrator
+
 <#
 .SYNOPSIS
    Create a csv report of files deleted yesterday.
 .DESCRIPTION
    Create a csv report of files deleted yesterday by analyzing the security event log to extract events with ID 4663 and AccessMask 65536.
+.PARAMETER ReportFilesRetained
+   Specifies number of log files retained. This parameter is optional (the default value is 30).
 .NOTES
    Author:  Ermanno Goletto
    Blog:    www.devadmin.it
    Date:    07/25/2025 
-   Version: 1.0 
+   Version: 1.1 
 .LINK
    https://github.com/ermannog/PowerShell/tree/master/Create-ReportVMs
 #>
 
+Param(
+  [UInt16]$ReportFilesRetained=180
+)
+
 Set-strictmode -version latest
 
 # Impostazioni Costanti
-$ReportFilesRetained = 180
 $ReportFileNamePrefix = "DeletedFiles-"
 
 # Impostazioni Variabili
@@ -35,9 +42,10 @@ Try {
   Write-Host $Message -ForegroundColor Blue
   (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog
 
-  $events = Get-WinEvent -FilterHashTable @{Logname=’Security’;ID=4663;StartTime=$Yesterday;EndTime=$Today} | Where {$_.Properties[9].Value -eq 65536}
+  $events = Get-WinEvent -FilterHashTable @{Logname=’Security’;ID=4663;StartTime=$Yesterday;EndTime=$Today} -ErrorAction Stop | Where {$_.Properties[9].Value -eq 65536}
   $events = $events | Select-Object -Property TimeCreated, @{Label='Account'; Expression={$_.Properties[1].Value}}, @{Label='Object'; Expression={$_.Properties[6].Value}}
 
+ 
   # Esporta i risultati in CSV
   If ($events.Count -gt 0) {
     # Creazione cartella report
@@ -72,7 +80,7 @@ Try {
 
         Remove-Item $reportFiles[$i-1].FullName
       }
-  }
+    }
 
   } Else {
     $Message = "Nessun file eliminato rilevato per il $($yesterday.ToString('yyyy-MM-dd'))."
