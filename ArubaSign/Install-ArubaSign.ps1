@@ -34,11 +34,15 @@ Try {
     Else {
       # Lettura data modifica del setup online
       $onlineSetupDate = [DateTime](Invoke-WebRequest -method "Head" $UrlSetup -UseBasicParsing | Select Headers -ExpandProperty Headers)["Last-Modified"]
+      # Lettura dimesione del setup online
+      $onlineSetupContentLength = [Int64](Invoke-WebRequest -method "Head" $UrlSetup -UseBasicParsing | Select Headers -ExpandProperty Headers)["Content-Length"]
 
       # Lettura data download del setup locale (la data di download corrisponde alla data di ultima modifica)
       $localSetupDate = (Get-ChildItem $PathFileSetup).LastWriteTime
+      # Lettura dimensione download del setup locale
+      $localSetupDateLength = (Get-ChildItem $PathFileSetup).Length
 
-      $DownloadSetup = ($onlineSetupDate -gt $localSetupDate)
+      $DownloadSetup = ($onlineSetupDate -gt $localSetupDate) -or ($onlineSetupContentLength -ne $localSetupDateLength)
     }
 
         
