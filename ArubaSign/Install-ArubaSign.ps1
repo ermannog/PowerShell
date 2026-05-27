@@ -12,50 +12,83 @@ $PathFileSetup = Join-Path ($PSScriptRoot) ($SetupFileName)
 $PathFileLog = Join-Path ($PSScriptRoot) ($LogFileName)
 $Message = ""
 $DownloadSetup = $false
+$InstallSetup = $false
 
 Try {
+
+
+  # Verifica esistenza setup aggiornato
+  $Message = "Verifica esistenza setup aggiornato."
+  Write-Host $Message -ForegroundColor Green
+  (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog
+
+
+  If (-Not (Test-Path $PathFileSetup)) {
+    $Message = "Il file di setup non presente localmente, occorre eseguirne il download."
+    Write-Host $Message -ForegroundColor Green
+    (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -append
+    $DownloadSetup = $True
+  }
+  Else {
+    # Lettura data modifica del setup online
+    $onlineSetupDate = [DateTime](Invoke-WebRequest -method "Head" $UrlSetup -UseBasicParsing | Select Headers -ExpandProperty Headers)["Last-Modified"]
+    # Lettura dimensione del setup online
+    $onlineSetupContentLength = [Int64](Invoke-WebRequest -method "Head" $UrlSetup -UseBasicParsing | Select Headers -ExpandProperty Headers)["Content-Length"]
+
+    # Lettura data download del setup locale (la data di download corrisponde alla data di ultima modifica)
+    $localSetupDate = (Get-ChildItem $PathFileSetup).LastWriteTime
+    # Lettura dimensione download del setup locale
+    $localSetupDateLength = (Get-ChildItem $PathFileSetup).Length
+
+    $DownloadSetup = ($onlineSetupDate -gt $localSetupDate) -or ($onlineSetupContentLength -ne $localSetupDateLength)
+  }
+          
+  # Download setup
+  If ($DownloadSetup) {
+    $Message = "Download $ProductName."
+    Write-Host $Message -ForegroundColor Green
+    (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -append
+
+    Invoke-WebRequest -URI $UrlSetup -OutFile $PathFileSetup
+  }
+  
 
   # Verifica prodotto installato
   $Message = "Verifica installazione $ProductName"
   Write-Host $Message  -ForegroundColor Green
-  (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog
+  (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -append
 
   $ProductInstalled = Get-WmiObject -Class Win32_Product | Where Name -eq $ProductName
 
-  If (($ProductInstalled | Measure-Object).Count -eq 0)
+
+  If (($ProductInstalled | Measure-Object).Count -eq 0){
+    $Message = "$ProductName non è installato."
+    Write-Host $Message -ForegroundColor Yellow
+    (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -append
+
+    $InstallSetup = $True
+  }
+  Else
   {
-    # Verifica esitenza setup aggiornato
-    If (-Not (Test-Path $PathFileSetup)) {
-      $Message = "Il file di setup non presente localmente, occorre eseguirne il download."
-      Write-Host $Message -ForegroundColor Green
-      (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog
-      $DownloadSetup = $True
+    # Verifica versione del setup
+    $shellApp = New-Object -ComObject Shell.Application
+    $folderObject = $shellApp.NameSpace((Get-Item $PathFileSetup).DirectoryName)
+    $fileObject = $folderObject.Items().Item((Get-Item $PathFileSetup).Name)
+    $subjectPropertyIndex=22
+    $subjectPropertyValue = $propertyValue = $folderObject.GetDetailsOf($fileObject, $subjectPropertyIndex)
+    $productInstalledVersion = $ProductInstalled.Version
+
+    If (-not $subjectPropertyValue.EndsWith($ProductInstalled.Version)){
+      $Message = "La versione installata ($productInstalledVersion) è diversa da quella del setup ($subjectPropertyValue)."
+      Write-Host $Message -ForegroundColor Yellow
+      (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -append
+
+      $InstallSetup = $True
     }
-    Else {
-      # Lettura data modifica del setup online
-      $onlineSetupDate = [DateTime](Invoke-WebRequest -method "Head" $UrlSetup -UseBasicParsing | Select Headers -ExpandProperty Headers)["Last-Modified"]
-      # Lettura dimesione del setup online
-      $onlineSetupContentLength = [Int64](Invoke-WebRequest -method "Head" $UrlSetup -UseBasicParsing | Select Headers -ExpandProperty Headers)["Content-Length"]
+  }
 
-      # Lettura data download del setup locale (la data di download corrisponde alla data di ultima modifica)
-      $localSetupDate = (Get-ChildItem $PathFileSetup).LastWriteTime
-      # Lettura dimensione download del setup locale
-      $localSetupDateLength = (Get-ChildItem $PathFileSetup).Length
-
-      $DownloadSetup = ($onlineSetupDate -gt $localSetupDate) -or ($onlineSetupContentLength -ne $localSetupDateLength)
-    }
-
-        
-    # Download setup
-    If ($DownloadSetup) {
-      $Message = "Download $ProductName."
-      Write-Host $Message -ForegroundColor Green
-      (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog
-
-      Invoke-WebRequest -URI $UrlSetup -OutFile $PathFileSetup
-    }
-
-
+  If ($InstallSetup)
+  {
     # Avvio Installazione
     $Message = "Avvio installazione $ProductName."
     Write-Host $Message -ForegroundColor Blue
