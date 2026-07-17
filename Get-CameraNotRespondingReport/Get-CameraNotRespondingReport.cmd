@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy remotesigned -Command %~dpn0.ps1 -PathDataFileMilestonePSTools %~dp0milestonepstools.25.2.61\MilestonePSTools.psd1 -ServerAddress "https://vms.contoso.com"
