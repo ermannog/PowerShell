@@ -32,7 +32,7 @@ Version: 1.0
    https://github.com/ermannog/PowerShell/tree/master/Get-CameraNotRespondingReport
 
 .COMPONENT
-This script requires MilestonePSTools Module version 25.2.61 (https://milestonepstools.com/)
+This script requires MilestonePSTools Module version 25.2.61 or later (https://milestonepstools.com/)
 #>
 
 Param(
