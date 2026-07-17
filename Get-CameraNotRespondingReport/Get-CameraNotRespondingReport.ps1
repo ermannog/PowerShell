@@ -47,7 +47,7 @@ Set-StrictMode -Version Latest
 # Impostazioni Variabili
 $PathFileLog = Join-Path ($PSScriptRoot) ([System.IO.Path]::GetFileNameWithoutExtension($PSCommandPath) + ".log")
 $ReportTitle = "Check Cameras not responding on $(Get-Date -Format 'dd-MM-yyyy HH:mm:ss')"
-$ReportStyleSheetFileName = Join-Path (".") ([System.IO.Path]::GetFileNameWithoutExtension($PathFileReport) + ".css")
+$ReportStyleSheetFileName = [System.IO.Path]::GetFileNameWithoutExtension($PathFileReport) + ".css"
 $Message = ""
 
 Try {
@@ -161,7 +161,6 @@ Try {
       Write-Host $Message  -ForegroundColor Green
       (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -Append
 
-
       #Add Camera to results list
       $row = [PSCustomObject]@{
         Name = $camera.DisplayName
@@ -207,7 +206,7 @@ Try {
     $report = $reportList | ConvertTo-Html -Title $ReportTitle -CssUri $ReportStyleSheetFileName -PreContent $reportPreContent
     
     # Report file creation
-    $report | Out-File $PathFileReport
+    $report | Out-File $PathFileReport -Encoding utf8
 
   } Else {
     # No unresponsive cameras found
