@@ -3,7 +3,7 @@ Create a report of non-responsive cameras in a Milestone software-based VMS base
 The connection to the Management Server is made with the credentials with which the script was started.
 This script requires MilestonePSTools Module version 25.2.61 or later (https://milestonepstools.com/)
 
-**Version: 1.0 - Date: 07/16/2026**
+**Version: 1.1 - Date: 07/20/2026**
 # Parameters
 **PathDataFileMilestonePSTools**
 
