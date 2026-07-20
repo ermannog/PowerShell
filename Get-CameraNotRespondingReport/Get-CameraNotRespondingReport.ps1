@@ -26,7 +26,7 @@ The html report file uses, if it exists, a css file named the same as the report
 Author:  Ermanno Goletto
 Blog:    www.devadmin.it
 Date:    07/16/2026 
-Version: 1.0 
+Version: 1.1 
 
 .LINK
    https://github.com/ermannog/PowerShell/tree/master/Get-CameraNotRespondingReport
@@ -107,21 +107,14 @@ Try {
       (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -Append
 
       # Get camera record from the Milestone XProtect Management Server
-      $camera = $item | Get-VmsCamera
+      $camera = Get-VmsCamera -Id $item.FQID.ObjectId
 
       $Message = "Camera: " + $camera.DisplayName
       Write-Host $Message  -ForegroundColor Green
       (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -Append
 
-      # Gets recording server from the VMS
-      $recordingServer = Get-VmsRecordingServer -Id $item.FQID.ParentId
-
-      $Message = "Recorder: " + $recordingServer.DisplayName
-      Write-Host $Message  -ForegroundColor Green
-      (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -Append
-
-      # Get hardware device added to recording server 
-      $hardware = Get-VmsHardware -RecordingServer $recordingServer -EnableFilter All | Where-Object Path -eq $camera.ParentItemPath
+      # Get hardware device from the camera
+      $hardware = Get-VmsHardware -Id $camera.ParentItemPath.Replace("Hardware[", "").Replace("]", "")
       
       $Message = "Hardware Enabled: " + $hardware.Enabled
       Write-Host $Message  -ForegroundColor Green
@@ -133,6 +126,14 @@ Try {
 
       # Excluding cameras with hardware disabled
       If ($hardware.Enabled -eq $False) { Continue }
+
+      # Gets recording server from the hardware
+      $recordingServer = Get-VmsRecordingServer -Id $hardware.ParentItemPath.Replace("RecordingServer[", "").Replace("]", "")
+
+      $Message = "Recorder: " + $recordingServer.DisplayName
+      Write-Host $Message  -ForegroundColor Green
+      (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -Append
+
 
       #Gets device record from the Milestone XProtect Management Server
       $device = $hardware | Get-VmsDevice
