@@ -26,7 +26,7 @@ The html report file uses, if it exists, a css file named the same as the report
 Author:  Ermanno Goletto
 Blog:    www.devadmin.it
 Date:    07/20/2026 
-Version: 1.1 
+Version: 1.2 
 
 .LINK
    https://github.com/ermannog/PowerShell/tree/master/Get-CameraNotRespondingReport
@@ -112,6 +112,14 @@ Try {
       $Message = "Camera: " + $camera.DisplayName
       Write-Host $Message  -ForegroundColor Green
       (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -Append
+
+      $Message = "Camera Enabled: " + $camera.Enabled
+      Write-Host $Message  -ForegroundColor Green
+      (Get-Date).ToString("yyyy-MM-dd HH:mm:ss") + " " + $Message | Out-File $PathFileLog -Append
+      
+      # Excluding cameras disabled
+      If ($camera.Enabled -eq $False) { Continue }
+
 
       # Get hardware device from the camera
       $hardware = Get-VmsHardware -Id $camera.ParentItemPath.Replace("Hardware[", "").Replace("]", "")
