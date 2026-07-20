@@ -25,7 +25,7 @@ The html report file uses, if it exists, a css file named the same as the report
 .NOTES
 Author:  Ermanno Goletto
 Blog:    www.devadmin.it
-Date:    07/16/2026 
+Date:    07/20/2026 
 Version: 1.1 
 
 .LINK
